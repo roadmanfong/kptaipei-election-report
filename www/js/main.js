@@ -11,7 +11,7 @@ var map = L.map('map',{
 L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
 	maxZoom: 18,
 	attribution: '',
-	id: 'tapei-election-map'
+	id: 'waneblade.k4nbn1c1'
 }).addTo(map);
 
 
@@ -25,7 +25,7 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-	this._div.innerHTML = '<h4>US Population Density</h4>' +  (props ?
+	this._div.innerHTML = '<h4>台北開票</h4>' +  (props ?
 		'<b>' + props.TVNAME + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
 		: 'Hover over a state');
 };
