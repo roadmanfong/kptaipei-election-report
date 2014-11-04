@@ -7,6 +7,7 @@ define([
     defaults: {
       id: null,
       name: null,
+      highlight: false,
       votes: 0
       // parent:
     }

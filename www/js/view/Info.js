@@ -19,17 +19,16 @@ define([
       this.update();
       return this._div;
     },
-    update: function (props){
-      this._div.innerHTML = '<h4>台北開票</h4>' +  (props ?
-        '<b>' + props.TVNAME + '</b><br />' + props.votes + ' votes'
+    update: function (model){
+      this._div.innerHTML = '<h4>台北開票</h4>' +  (model ?
+        '<b>' + model.get('name') + '</b><br />' + model.get('votes') + ' votes'
         : 'Hover over a state');
     },
 
-    onMouseOver: function(e) {
-      var layer = e.target;
-      this.info.update(layer.feature.properties);
+    onMouseOver: function(e, model) {
+      this.info.update(model);
     },
-    onMouseOut: function (e){
+    onMouseOut: function (e, model){
       this.info.update();
     }
   });

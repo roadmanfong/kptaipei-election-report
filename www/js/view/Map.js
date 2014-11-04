@@ -19,7 +19,7 @@ define([
         center: [25.07, 121.548781],
         zoom: 12,
         maxZoom: 15,
-        minZoom: 12,
+        minZoom: 11,
         maxBounds: L.latLngBounds([24,121], [26,122]),
         zoomControl: false
       });
@@ -40,8 +40,8 @@ define([
 
       this.on('mouseover', viewInfo.onMouseOver.bind(viewInfo));
       this.on('mouseout', viewInfo.onMouseOut.bind(viewInfo));
-      // this.on('mouseover', this.highlightFeature);
-      // this.on('mouseout', this.resetHighlight);
+      this.on('mouseover', this.highlightFeature);
+      this.on('mouseout', this.resetHighlight);
       this.on('click', this.zoomToFeature);
       this.collection.on('reset', this.generateGeoJson, this);
       // get color depending on votes value
@@ -56,55 +56,50 @@ define([
         }
         feature.votes = model.get('votes');
         model.on('change', function(model) {
-          layer.setStyle({
-            fillColor: getColor(model.get('votes'))
-          })
+          layer.setStyle(view.style(model));
         });
         layer.on({
           mouseover: function(e) {
-            view.trigger('mouseover', e);
+            view.trigger('mouseover', e, model);
           },
           mouseout: function(e) {
-            view.trigger('mouseout', e);
+            view.trigger('mouseout', e, model);
           },
           click: function(e) {
-            view.trigger('click', e);
+            view.trigger('click', e, model);
           }
         });
       }
 
       this.geojson = L.geoJson(this.geojsonData, {
-        style: this.style,
+        style: this.defaultStyle,
         onEachFeature: onEachFeature
       }).addTo(this.map);
     },
-    style: function (feature){
+    defaultStyle: {
+      weight: 2,
+      opacity: 1,
+      color: 'white',
+      dashArray: '3',
+      fillOpacity: 0.7,
+      fillColor: '#FFEDA0'
+    },
+    style: function (model){
       return {
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        dashArray: '3',
-        fillOpacity: 0.7,
-        fillColor: getColor(feature.properties.votes)
+        fillOpacity: model.get('highlight') ? 0.3 : 0.7,
+        fillColor: getColor(model.get('votes'))
       };
     },
-    // highlightFeature: function(e) {
-    //   var layer = e.target;
-
-    //   layer.setStyle({
-    //     weight: 5,
-    //     color: '#666',
-    //     dashArray: '',
-    //     fillOpacity: 0.7
-    //   });
-
-    //   if (!L.Browser.ie && !L.Browser.opera) {
-    //     layer.bringToFront();
-    //   }
-    // },
-    // resetHighlight: function (e){
-    //   this.geojson.resetStyle(e.target);
-    // },
+    highlightFeature: function(e, model) {
+      model.set('highlight', true);
+      var layer = e.target;
+      if (!L.Browser.ie && !L.Browser.opera) {
+        layer.bringToFront();
+      }
+    },
+    resetHighlight: function (e, model){
+      model.set('highlight', false);
+    },
     zoomToFeature: function (e){
       this.map.fitBounds(e.target.getBounds()); 
     }

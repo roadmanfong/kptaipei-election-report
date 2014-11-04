@@ -16,10 +16,7 @@ define([
           votes:0
         }
       });
-      setTimeout(function(){
-        //body
-        this.reset(startValues);
-      }.bind(this), 0);
+      setTimeout(this.reset.bind(this), 0, startValues);
     }
   });
   return Votes;

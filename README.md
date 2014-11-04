@@ -1,5 +1,13 @@
 # 選情回報圖
 
+## TODO
+
+* votes 應為多欄位 1 ~ 7號參選人 廢票 未開票
+* build javascripts into one file
+* json API with google drive
+* tune performance?
+
+
 ## 里界圖
 ```json
 {
