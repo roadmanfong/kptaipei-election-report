@@ -39,7 +39,14 @@ V:里民
 C: 字串
 N: 數值
 
+```js
+var properties = _.pluck(villagesData.features,'properties');
+_.map(properties, function(property){
+  return _.extend(_.pick(property, 'CPTVID', 'TVNAME'), {votes: parseInt(Math.random()*1000)});
+});
 
+
+```
 
 # Resource
 * 資訊視覺化 http://d3js.org/
@@ -49,7 +56,10 @@ N: 數值
 ## Sample
 US Map States - Choropleth Plus Bar https://vida.io/documents/4vZ9mRGyepoyQxFcK
 Choropleth http://bl.ocks.org/mbostock/4060606
+
 # Reference
 ## 里界圖來源
 https://github.com/ronnywang/data.taipei.gov.tw
-
+http://ogre.adc4gis.com/
+> `ogr2ogr -t_srs EPSG:4326 -s_srs EPSG:3826`
+> from this link https://github.com/g0v/twgeojson/issues/31

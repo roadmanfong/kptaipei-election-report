@@ -1,9 +1,21 @@
 define([
-  'backbone'
-],function(Backbone) {
+  'backbone',
+  'leaflet',
+  'view/info',
+  'view/legend',
+  'util/getColor'
+],function(
+  Backbone,
+  L,
+  ViewInfo,
+  ViewLegend,
+  getColor
+) {
   var Map = Backbone.View.extend({
-    initialize: function() {
-      var map = L.map('map',{
+    initialize: function(options) {
+      var view = this;
+      this.geojsonData = options.geojsonData;
+      this.map = L.map('map',{
         center: [25.07, 121.548781],
         zoom: 12,
         maxZoom: 15,
@@ -11,121 +23,92 @@ define([
         maxBounds: L.latLngBounds([24,121], [26,122]),
         zoomControl: false
       });
+      this.map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
+
       L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
         maxZoom: 18,
         attribution: '',
         id: 'waneblade.k4nbn1c1'
-      }).addTo(map);
+      }).addTo(this.map);
 
-      // control that shows state info on hover
-      var info = L.control();
-      info.onAdd = function (map) {
-        this._div = L.DomUtil.create('div', 'info');
-        this.update();
-        return this._div;
-      };
+      var viewInfo = new ViewInfo({
+        map: this.map
+      });
+      var viewLegend = new ViewLegend({
+        map: this.map
+      });
 
-      info.update = function (props) {
-        this._div.innerHTML = '<h4>台北開票</h4>' +  (props ?
-          '<b>' + props.TVNAME + '</b><br />' + props.density + ' people / mi<sup>2</sup>'
-          : 'Hover over a state');
-      };
-
-      info.addTo(map);
-      
-
-
-      // get color depending on population density value
-      function getColor(d) {
-        return d > 1000 ? '#800026' :
-               d > 500  ? '#BD0026' :
-               d > 200  ? '#E31A1C' :
-               d > 100  ? '#FC4E2A' :
-               d > 50   ? '#FD8D3C' :
-               d > 20   ? '#FEB24C' :
-               d > 10   ? '#FED976' :
-                          '#FFEDA0';
-      }
-
-      function style(feature) {
-        return {
-          weight: 2,
-          opacity: 1,
-          color: 'white',
-          dashArray: '3',
-          fillOpacity: 0.7,
-          fillColor: getColor(feature.properties.density)
-        };
-      }
-
-      function highlightFeature(e) {
-        var layer = e.target;
-
-        layer.setStyle({
-          weight: 5,
-          color: '#666',
-          dashArray: '',
-          fillOpacity: 0.7
-        });
-
-        if (!L.Browser.ie && !L.Browser.opera) {
-          layer.bringToFront();
+      this.on('mouseover', viewInfo.onMouseOver.bind(viewInfo));
+      this.on('mouseout', viewInfo.onMouseOut.bind(viewInfo));
+      // this.on('mouseover', this.highlightFeature);
+      // this.on('mouseout', this.resetHighlight);
+      this.on('click', this.zoomToFeature);
+      this.collection.on('reset', this.generateGeoJson, this);
+      // get color depending on votes value
+    },
+    generateGeoJson: function (){
+      var view = this;
+      function onEachFeature(feature, layer){
+        var model = view.collection.get(feature.properties.CPTVID);
+        if(!model){
+          console.warn('CPTVID ' + feature.properties.CPTVID + ' not exists')
+          return;
         }
-
-        info.update(layer.feature.properties);
-      }
-
-      var geojson;
-
-      function resetHighlight(e) {
-        geojson.resetStyle(e.target);
-        info.update();
-      }
-
-      function zoomToFeature(e) {
-        map.fitBounds(e.target.getBounds());
-      }
-
-      function onEachFeature(feature, layer) {
+        feature.votes = model.get('votes');
+        model.on('change', function(model) {
+          layer.setStyle({
+            fillColor: getColor(model.get('votes'))
+          })
+        });
         layer.on({
-          mouseover: highlightFeature,
-          mouseout: resetHighlight,
-          click: zoomToFeature
+          mouseover: function(e) {
+            view.trigger('mouseover', e);
+          },
+          mouseout: function(e) {
+            view.trigger('mouseout', e);
+          },
+          click: function(e) {
+            view.trigger('click', e);
+          }
         });
       }
 
-      geojson = L.geoJson(villagesData, {
-        style: style,
+      this.geojson = L.geoJson(this.geojsonData, {
+        style: this.style,
         onEachFeature: onEachFeature
-      }).addTo(map);
-
-      map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
-
-
-      var legend = L.control({position: 'bottomright'});
-
-      legend.onAdd = function (map) {
-
-        var div = L.DomUtil.create('div', 'info legend'),
-          grades = [0, 10, 20, 50, 100, 200, 500, 1000],
-          labels = [],
-          from, to;
-
-        for (var i = 0; i < grades.length; i++) {
-          from = grades[i];
-          to = grades[i + 1];
-
-          labels.push(
-            '<i style="background:' + getColor(from + 1) + '"></i> ' +
-            from + (to ? '&ndash;' + to : '+'));
-        }
-
-        div.innerHTML = labels.join('<br>');
-        return div;
+      }).addTo(this.map);
+    },
+    style: function (feature){
+      return {
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7,
+        fillColor: getColor(feature.properties.votes)
       };
+    },
+    // highlightFeature: function(e) {
+    //   var layer = e.target;
 
-      legend.addTo(map);
+    //   layer.setStyle({
+    //     weight: 5,
+    //     color: '#666',
+    //     dashArray: '',
+    //     fillOpacity: 0.7
+    //   });
+
+    //   if (!L.Browser.ie && !L.Browser.opera) {
+    //     layer.bringToFront();
+    //   }
+    // },
+    // resetHighlight: function (e){
+    //   this.geojson.resetStyle(e.target);
+    // },
+    zoomToFeature: function (e){
+      this.map.fitBounds(e.target.getBounds()); 
     }
   });
+
   return Map;
 })
