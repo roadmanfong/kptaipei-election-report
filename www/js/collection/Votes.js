@@ -27,6 +27,7 @@ define([
       setTimeout(this.reset.bind(this), 0, startValues);
     },
     fetch: function (){
+      // console.log('collection fetch!!');
       var that = this;
       $.getJSON(this.url(), function(response) {
         that.set(response, {remove: false, parse: true, silent: true});
@@ -50,20 +51,6 @@ define([
         model.trigger('change', model);
       });
     },
-    roll: function (){
-      var properties = _.pluck(villagesData.features,'properties');
-      var result = _.map(properties, function(property){
-        return {
-          id: property.CPTVID,
-          name: property.TVNAME,
-          votes: parseInt(Math.random()*10)
-        };
-      });
-      // console.log(result[0]);
-      // console.log(collectionVotes.at(0).get('votes'));
-      this.set(result, {silent: true});
-      this.triggerModelsChange();
-    },
     setSameZone: function (CPTID, attr){
       this.each(function(_model) {
         if(_model.get('CPTID') === CPTID){
@@ -79,7 +66,29 @@ define([
         }
       });
       return sum;
-    }
+    },
+    roll: function (){
+      console.log('collection roll!!');
+      var properties = _.pluck(villagesData.features,'properties');
+      var result = _.map(properties, function(property){
+        return {
+          id: property.CPTVID,
+          name: property.TVNAME,
+          votes: parseInt(Math.random()*10)
+        };
+      });
+      // console.log(result[0]);
+      // console.log(collectionVotes.at(0).get('votes'));
+      this.set(result, {silent: true});
+      this.triggerModelsChange();
+    },
+    startPolling: function (){
+      clearInterval(this.pollingId);
+      this.pollingId = setInterval(this.fetch.bind(this), config.POLLING_TIME_MS);
+    },
+    stopPolling: function (){
+      clearInterval(this.pollingId);
+    },
   });
   return Votes;
 });

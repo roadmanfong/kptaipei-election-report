@@ -7,7 +7,7 @@ define([
     defaults: {
       id: null,
       name: null,
-      highlight: false,
+      opacity: 0.5,
       votes: -1,
       CPTID: null
       // parent:

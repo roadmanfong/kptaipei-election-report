@@ -1,11 +1,13 @@
 define([
+  'app/config',
   'underscore',
   'backbone',
   'leaflet',
   'view/info',
   'view/legend',
   'util/getColor'
-],function(
+], function(
+  config,
   _,
   Backbone,
   L,
@@ -18,24 +20,31 @@ define([
       var view = this;
       this.geojsonData = options.geojsonData;
       this.map = L.map('map',{
-        center: [25.07, 121.548781],
-        zoom: 12,
-        maxZoom: 15,
-        minZoom: 11,
-        maxBounds: L.latLngBounds([24,121], [26,122]),
+        center: config.CENTER,
+        zoom: config.ZOOM,
+        maxZoom: config.MAX_ZOOM,
+        minZoom: config.MIN_ZOOM,
+        maxBounds: L.latLngBounds(config.LATLNG_BOUNDS[0], config.LATLNG_BOUNDS[1]),
         zoomControl: false
       });
       this.map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
       this.map.on('zoomend', function() {
         view.collection.triggerModelsChange();
+        view.collection.each(function(model) {
+          if(model.get('CPTID') === view.lastCPTID){
+            return;
+          }
+          model.set({opacity: view.blurOpacity()});
+        });
       });
 
-
-      L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '',
-        id: 'waneblade.k4nbn1c1'
-      }).addTo(this.map);
+      if(config.ENABLE_BG_MAP){
+        L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+          maxZoom: 18,
+          attribution: '',
+          id: 'waneblade.k4nbn1c1'
+        }).addTo(this.map);
+      }
 
       var viewInfo = new ViewInfo({
         map: this.map
@@ -49,6 +58,8 @@ define([
       this.on('mouseover', this.highlightFeature);
       this.on('mouseout', this.resetHighlight);
       this.on('click', this.zoomToFeature);
+      this.on('mouseover', this.lastMouseOver);
+
       this.collection.on('reset', this.generateGeoJson, this);
       // get color depending on votes value
     },
@@ -96,27 +107,42 @@ define([
     },
     style: function (model){
       var sumUp = this.collection.getVotes(model.get('CPTID'));
-      var fillColor = getColor(this.map.getZoom() >12 ? model.get('votes') : sumUp);
+      var fillColor = getColor( this.isDetailMode() ? model.get('votes') : sumUp);
       return {
-        fillOpacity: model.get('highlight') ? 0.3 : 0.7,
+        fillOpacity: model.get('opacity'),
         fillColor: fillColor
       };
     },
+    isDetailMode: function (){
+      return this.map.getZoom() > config.ZOOM;
+    },
+    focusOpacity: function (){
+      return this.isDetailMode() ? 0.8 : 0.7;
+    },
+    sameZoneOpacity: function (){
+      return this.isDetailMode() ? 0.9 : 0.9; 
+    },
+    blurOpacity: function (){
+      return this.isDetailMode() ? 0.2 : 0.5;
+    },
     highlightFeature: function(e, model) {
-      model.set('highlight', true);
-      this.collection.setSameZone(model.get('CPTID'), {highlight: true});
+      this.collection.setSameZone(model.get('CPTID'), {'opacity': this.sameZoneOpacity()});
+      model.set('opacity', this.focusOpacity());
       var layer = e.target;
       if (!L.Browser.ie && !L.Browser.opera) {
         layer.bringToFront();
       }
     },
     resetHighlight: function (e, model){
-      model.set('highlight', false);
-      this.collection.setSameZone(model.get('CPTID'), {highlight: false});
+      this.collection.setSameZone(model.get('CPTID'), {'opacity': this.blurOpacity()});
     },
     zoomToFeature: function (e){
-      this.map.fitBounds(e.target.getBounds()); 
-    }
+      this.map.setView(e.target.getBounds().getCenter(), config.ZOOM + 1);
+      // this.map.fitBounds(e.target.getBounds()); 
+    },
+    lastMouseOver: function (e, model){
+      this.lastCPTID = model.get('CPTID');
+    },
   });
 
   return Map;

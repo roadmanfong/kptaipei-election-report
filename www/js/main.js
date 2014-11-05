@@ -32,6 +32,7 @@ requirejs([
     geojsonData: villagesData,//from tpe-villages.js
     collection: collectionVotes
   });
-
+  collectionVotes.fetch();
+  collectionVotes.startPolling();
   window.collectionVotes = collectionVotes;
 });
