@@ -8,7 +8,8 @@ define([
       id: null,
       name: null,
       highlight: false,
-      votes: 0
+      votes: -1,
+      CPTID: null
       // parent:
     }
   });

@@ -1,12 +1,15 @@
 define([
   'app/config',
+  'underscore',
   'backbone',
   'model/Vote'
 ],function(
   config,
+  _,
   Backbone,
   ModelVote
 ) {
+  /*global villagesData*/
   var Votes = Backbone.Collection.extend({
     model: ModelVote,
     url: function (){
@@ -18,16 +21,16 @@ define([
       var startValues = _.map(properties, function(property){
         return {
           id: property.CPTVID,
-          name: property.TVNAME,
-          votes:0
-        }
+          name: property.TVNAME
+        };
       });
       setTimeout(this.reset.bind(this), 0, startValues);
     },
     fetch: function (){
       var that = this;
       $.getJSON(this.url(), function(response) {
-        that.set(response, {remove: false, parse: true});
+        that.set(response, {remove: false, parse: true, silent: true});
+        that.triggerModelsChange();
       });
     },
     parse: function(response) {
@@ -39,7 +42,12 @@ define([
           id: entry['gsx$houseid']['$t'].toString(),
           votes: parseInt(entry['gsx$white']['$t']),
           votes2: parseInt(entry['gsx$blue']['$t'])
-        }
+        };
+      });
+    },
+    triggerModelsChange: function(){
+      this.each(function(model){
+        model.trigger('change', model);
       });
     },
     roll: function (){
@@ -48,13 +56,30 @@ define([
         return {
           id: property.CPTVID,
           name: property.TVNAME,
-          votes: parseInt(Math.random()*1000)
-        }
+          votes: parseInt(Math.random()*10)
+        };
       });
       // console.log(result[0]);
       // console.log(collectionVotes.at(0).get('votes'));
-      this.set(result);
+      this.set(result, {silent: true});
+      this.triggerModelsChange();
     },
+    setSameZone: function (CPTID, attr){
+      this.each(function(_model) {
+        if(_model.get('CPTID') === CPTID){
+          _model.set(attr);
+        }
+      });
+    },
+    getVotes: function(CPTID){
+      var sum = 0;
+      this.each(function(_model) {
+        if(_model.get('CPTID') === CPTID){
+          sum = sum + _model.get('votes');
+        }
+      });
+      return sum;
+    }
   });
   return Votes;
 });

@@ -1,10 +1,12 @@
 define([
+  'underscore',
   'backbone',
   'leaflet',
   'view/info',
   'view/legend',
   'util/getColor'
 ],function(
+  _,
   Backbone,
   L,
   ViewInfo,
@@ -24,6 +26,10 @@ define([
         zoomControl: false
       });
       this.map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
+      this.map.on('zoomend', function() {
+        view.collection.triggerModelsChange();
+      });
+
 
       L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
         maxZoom: 18,
@@ -51,11 +57,16 @@ define([
       function onEachFeature(feature, layer){
         var model = view.collection.get(feature.properties.CPTVID);
         if(!model){
-          console.warn('CPTVID ' + feature.properties.CPTVID + ' not exists')
+          console.warn('CPTVID ' + feature.properties.CPTVID + ' not exists');
           return;
         }
-        feature.votes = model.get('votes');
+        model.set({
+          CPTID: feature.properties.CPTID,
+          layer: layer
+        }, {silent: true});
+        
         model.on('change', function(model) {
+          // console.log('change');
           layer.setStyle(view.style(model));
         });
         layer.on({
@@ -70,7 +81,6 @@ define([
           }
         });
       }
-
       this.geojson = L.geoJson(this.geojsonData, {
         style: this.defaultStyle,
         onEachFeature: onEachFeature
@@ -85,13 +95,16 @@ define([
       fillColor: '#FFEDA0'
     },
     style: function (model){
+      var sumUp = this.collection.getVotes(model.get('CPTID'));
+      var fillColor = getColor(this.map.getZoom() >12 ? model.get('votes') : sumUp);
       return {
         fillOpacity: model.get('highlight') ? 0.3 : 0.7,
-        fillColor: getColor(model.get('votes'))
+        fillColor: fillColor
       };
     },
     highlightFeature: function(e, model) {
       model.set('highlight', true);
+      this.collection.setSameZone(model.get('CPTID'), {highlight: true});
       var layer = e.target;
       if (!L.Browser.ie && !L.Browser.opera) {
         layer.bringToFront();
@@ -99,6 +112,7 @@ define([
     },
     resetHighlight: function (e, model){
       model.set('highlight', false);
+      this.collection.setSameZone(model.get('CPTID'), {highlight: false});
     },
     zoomToFeature: function (e){
       this.map.fitBounds(e.target.getBounds()); 

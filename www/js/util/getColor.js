@@ -1,4 +1,6 @@
 define(function() {
+
+
   function getColor(d) {
     return d > 1000 ? '#800026' :
        d > 500  ? '#BD0026' :
@@ -8,6 +10,15 @@ define(function() {
        d > 20   ? '#FEB24C' :
        d > 10   ? '#FED976' :
             '#FFEDA0';
+    // var colors = [
+    //   'orange',
+    //   'green',
+    //   'red',
+    //   'blue',
+    //   'yellow',
+    //   'purple',
+    // ];
+    // return colors[d%6];
   }
   return getColor;
 })
