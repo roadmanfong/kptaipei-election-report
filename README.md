@@ -3,6 +3,7 @@
 ## TODO
 
 * votes 應為多欄位 1 ~ 7號參選人 廢票 未開票
+* more constant number in config.js
 * tune performance?
 * 依區域顯示票
 

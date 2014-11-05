@@ -1,15 +1,15 @@
-define(function() {
+define([
+  'app/config',
+  'underscore'
+],function(
+  config,
+  _
+) {
+  function getColor(votes) {
+    // console.log(votes[0] + ',' + votes[1]);
+    var index = _.indexOf(votes, _.max(votes));
+    return config.COLORS[index];
 
-
-  function getColor(d) {
-    return d > 1000 ? '#800026' :
-       d > 500  ? '#BD0026' :
-       d > 200  ? '#E31A1C' :
-       d > 100  ? '#FC4E2A' :
-       d > 50   ? '#FD8D3C' :
-       d > 20   ? '#FEB24C' :
-       d > 10   ? '#FED976' :
-            '#FFEDA0';
     // var colors = [
     //   'orange',
     //   'green',

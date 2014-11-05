@@ -21,7 +21,8 @@ define([
       var startValues = _.map(properties, function(property){
         return {
           id: property.CPTVID,
-          name: property.TVNAME
+          name: property.TVNAME,
+          CPTID: property.CPTID
         };
       });
       setTimeout(this.reset.bind(this), 0, startValues);
@@ -36,13 +37,16 @@ define([
     },
     parse: function(response) {
       return _.map(response.feed.entry, function(entry) {
-        // var id = entry['gsx$houseid']['$t'].toString();
-        // console.log(id);
-        // console.log(collectionVotes.get(id).get('name'));
+        var votes = [
+          parseInt(entry['gsx$white']['$t']),
+          parseInt(entry['gsx$blue']['$t'])
+        ];
+        if(votes.length !== config.CANDIDATES_NUM){
+          throw 'collection/votes.js parse function not matched config.CANDIDATES_NUM';
+        }
         return {
           id: entry['gsx$houseid']['$t'].toString(),
-          votes: parseInt(entry['gsx$white']['$t']),
-          votes2: parseInt(entry['gsx$blue']['$t'])
+          votes: votes
         };
       });
     },
@@ -59,22 +63,35 @@ define([
       });
     },
     getVotes: function(CPTID){
-      var sum = 0;
-      this.each(function(_model) {
-        if(_model.get('CPTID') === CPTID){
-          sum = sum + _model.get('votes');
-        }
+      var sum = [];
+      voteList = this.filter(function(model) {
+        return model.get('CPTID') === CPTID;
+      })
+      .map(function(model) {
+        return model.get('votes');
       });
+      for( var i = 0 ; i < config.CANDIDATES_NUM ; i++){
+        var partSum = _.reduce(voteList, function(mem, num) {
+          return mem + num[i];
+        }, 0)
+        sum.push(partSum);
+      }
       return sum;
     },
     roll: function (){
       console.log('collection roll!!');
       var properties = _.pluck(villagesData.features,'properties');
       var result = _.map(properties, function(property){
+        var votes = [];
+
+        for(var i = 0 ; i < config.CANDIDATES_NUM ; i++){
+          votes.push(parseInt(Math.random()*10));
+        }
+
         return {
           id: property.CPTVID,
           name: property.TVNAME,
-          votes: parseInt(Math.random()*10)
+          votes: votes
         };
       });
       // console.log(result[0]);

@@ -72,7 +72,6 @@ define([
           return;
         }
         model.set({
-          CPTID: feature.properties.CPTID,
           layer: layer
         }, {silent: true});
         
@@ -102,7 +101,7 @@ define([
       opacity: 1,
       color: 'white',
       dashArray: '3',
-      fillOpacity: 0.7,
+      fillOpacity: 0.5,
       fillColor: '#FFEDA0'
     },
     style: function (model){
@@ -123,7 +122,7 @@ define([
       return this.isDetailMode() ? 0.9 : 0.9; 
     },
     blurOpacity: function (){
-      return this.isDetailMode() ? 0.2 : 0.5;
+      return this.isDetailMode() ? 0 : 0.5;
     },
     highlightFeature: function(e, model) {
       this.collection.setSameZone(model.get('CPTID'), {'opacity': this.sameZoneOpacity()});

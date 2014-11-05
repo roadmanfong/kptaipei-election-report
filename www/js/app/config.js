@@ -7,7 +7,8 @@ define(function() {
 		LATLNG_BOUNDS: [[24,121], [26,122]],
 		CENTER: [25.07, 121.548781],
 		POLLING_TIME_MS: 30000,
-		COLORS: ['blue', 'white'],
-		ENABLE_BG_MAP: false
+		COLORS: ['white', 'blue'],
+		ENABLE_BG_MAP: false,
+		CANDIDATES_NUM: 2
 	};
 });
