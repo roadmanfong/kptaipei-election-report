@@ -1,12 +1,18 @@
 {
-  "boss":      true,
-  "node":      true,
-  "strict":    true,
-  "maxlen":    100,
-  "newcap":    false,
-  "undef":     true,
-  "unused":    true,
-  "onecase":   true,
-  "lastsemic": true,
-  "indent":    2
+  "camelcase" : true,
+  "undef": true,
+  "quotmark": "single",
+  "curly": true,
+  "eqeqeq": true,
+  "eqnull": true,
+  "browser": true,
+  "devel": true,
+  "node": true,
+  "jquery": true,
+  "qunit": true,
+  "globals": {
+    "define"         : false,
+    "require"        : false,
+    "requirejs"      : false
+  }
 }

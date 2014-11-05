@@ -1,3 +1,5 @@
+/*global requirejs, villagesData, window*/
+
 requirejs.config({
   baseUrl: 'js',
   paths: {
@@ -30,7 +32,6 @@ requirejs([
     geojsonData: villagesData,//from tpe-villages.js
     collection: collectionVotes
   });
+
   window.collectionVotes = collectionVotes;
 });
-
-

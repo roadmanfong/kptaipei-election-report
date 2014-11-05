@@ -26,19 +26,20 @@ define([
     },
     fetch: function (){
       var that = this;
-      $.getJSON(this.url(), function(data) {
-        var result = _.map(data.feed.entry, function(entry) {
-          // var id = entry['gsx$houseid']['$t'].toString();
-          // console.log(id);
-          // console.log(collectionVotes.get(id).get('name'));
-          return {
-            id: entry['gsx$houseid']['$t'].toString(),
-            votes: parseInt(entry['gsx$white']['$t']),
-            votes2: parseInt(entry['gsx$blue']['$t'])
-          }
-        });
-        console.log(result);
-        that.set(result, {remove: false});
+      $.getJSON(this.url(), function(response) {
+        that.set(response, {remove: false, parse: true});
+      });
+    },
+    parse: function(response) {
+      return _.map(response.feed.entry, function(entry) {
+        // var id = entry['gsx$houseid']['$t'].toString();
+        // console.log(id);
+        // console.log(collectionVotes.get(id).get('name'));
+        return {
+          id: entry['gsx$houseid']['$t'].toString(),
+          votes: parseInt(entry['gsx$white']['$t']),
+          votes2: parseInt(entry['gsx$blue']['$t'])
+        }
       });
     },
     roll: function (){
