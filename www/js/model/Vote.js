@@ -7,17 +7,18 @@ define([
 ) {
   var votes = [];
 
-  for(var i = 0 ; i < config.CANDIDATES_NUM ; i++){
+  for(var i = 0 ; i < config.CANDIDATE.length ; i++){
     votes.push(-1);
   }
 
   var Vote = Backbone.Model.extend({
     defaults: {
-      id: null,
+      id: null,//CPTID
       name: null,
       opacity: 0.5,
       votes: votes,
-      CPTID: null
+      villages: [],
+      layers: null
     }
   });
   return Vote;

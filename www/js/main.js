@@ -33,6 +33,6 @@ requirejs([
     collection: collectionVotes
   });
   collectionVotes.fetch();
-  collectionVotes.startPolling();
+  // collectionVotes.startPolling();
   window.collectionVotes = collectionVotes;
 });

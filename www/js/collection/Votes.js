@@ -18,21 +18,25 @@ define([
     },
     initialize: function (collection, options){
       var properties = _.pluck(options.geojsonData.features,'properties');
+      var districts = {};
       var startValues = _.map(properties, function(property){
-        return {
-          id: property.CPTVID,
-          name: property.TVNAME,
-          CPTID: property.CPTID
-        };
+        var district = districts[property.CPTID];
+        if(!district){
+          district = {villages:[]};
+          district.name = property.TNAME;
+          districts[property.CPTID] = district;//link back when first created
+        }
+        district.id = property.CPTID;
+        district.villages.push(property.CPTVID);
       });
-      setTimeout(this.reset.bind(this), 0, startValues);
+      setTimeout(this.reset.bind(this), 0, _(districts).toArray());
     },
     fetch: function (){
       // console.log('collection fetch!!');
       var that = this;
       $.getJSON(this.url(), function(response) {
         that.set(response, {remove: false, parse: true, silent: true});
-        that.triggerModelsChange();
+        // that.triggerModelsChange();
       });
     },
     parse: function(response) {
@@ -50,54 +54,22 @@ define([
         };
       });
     },
-    triggerModelsChange: function(){
-      this.each(function(model){
-        model.trigger('change', model);
-      });
-    },
-    setSameZone: function (CPTID, attr){
-      this.each(function(_model) {
-        if(_model.get('CPTID') === CPTID){
-          _model.set(attr);
-        }
-      });
-    },
-    getVotes: function(CPTID){
-      var sum = [];
-      voteList = this.filter(function(model) {
-        return model.get('CPTID') === CPTID;
-      })
-      .map(function(model) {
-        return model.get('votes');
-      });
-      for( var i = 0 ; i < config.CANDIDATE.length ; i++){
-        var partSum = _.reduce(voteList, function(mem, num) {
-          return mem + num[i];
-        }, 0)
-        sum.push(partSum);
-      }
-      return sum;
-    },
     roll: function (){
       console.log('collection roll!!');
-      var properties = _.pluck(villagesData.features,'properties');
-      var result = _.map(properties, function(property){
+      var result = _.map(collectionVotes.toJSON(), function(modelVote){
         var votes = [];
 
         for(var i = 0 ; i < config.CANDIDATE.length ; i++){
           votes.push(parseInt(Math.random()*10));
         }
 
-        return {
-          id: property.CPTVID,
-          name: property.TVNAME,
-          votes: votes
-        };
+        modelVote.votes = votes;
+        return modelVote;
       });
       // console.log(result[0]);
       // console.log(collectionVotes.at(0).get('votes'));
       this.set(result, {silent: true});
-      this.triggerModelsChange();
+      this.trigger('change');
     },
     startPolling: function (){
       clearInterval(this.pollingId);

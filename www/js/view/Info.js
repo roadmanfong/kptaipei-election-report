@@ -20,9 +20,13 @@ define([
       return this._div;
     },
     update: function (model){
-      this._div.innerHTML = '<h4>台北開票</h4>' +  (model ?
-        '<b>' + model.get('name') + '</b><br />' + model.get('votes') + ' votes'
-        : 'Hover over a state');
+      this._div.innerHTML = model ? [
+        '<h4>',
+          model.get('name'),
+        '</h4>',
+        model.get('votes'),
+        'votes'
+      ].join('') : 'Hover over a district';
     },
 
     onMouseOver: function(e, model) {

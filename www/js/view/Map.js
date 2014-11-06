@@ -27,9 +27,9 @@ define([
         maxBounds: L.latLngBounds(config.LATLNG_BOUNDS[0], config.LATLNG_BOUNDS[1]),
         zoomControl: false
       });
-      this.map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
+      this.map.attributionControl.addAttribution(config.ATTRIBUTION_CONTROL);
       this.map.on('zoomend', function() {
-        view.collection.triggerModelsChange();
+        view.collection.trigger('change');
         view.collection.each(function(model) {
           if(model.get('CPTID') === view.lastCPTID){
             return;
@@ -61,24 +61,24 @@ define([
       this.on('mouseover', this.lastMouseOver);
 
       this.collection.on('reset', this.generateGeoJson, this);
+      this.collection.on('change', this.renderLayers, this);
       // get color depending on votes value
     },
     generateGeoJson: function (){
       var view = this;
       function onEachFeature(feature, layer){
-        var model = view.collection.get(feature.properties.CPTVID);
+        var model = view.collection.get(feature.properties.CPTID);
+        // console.log('model' + model.id);
         if(!model){
-          console.warn('CPTVID ' + feature.properties.CPTVID + ' not exists');
+          console.warn('CPTID ' + feature.properties.CPTID + ' not exists');
           return;
         }
-        model.set({
-          layer: layer
-        }, {silent: true});
-        
-        model.on('change', function(model) {
-          // console.log('change');
-          layer.setStyle(view.style(model));
-        });
+        var layers = model.get('layers');
+        if(!layers){
+          model.set('layers', [], {silent: true});
+        }
+        model.get('layers').push(layer);
+
         layer.on({
           mouseover: function(e) {
             view.trigger('mouseover', e, model);
@@ -92,48 +92,36 @@ define([
         });
       }
       this.geojson = L.geoJson(this.geojsonData, {
-        style: this.defaultStyle,
+        style: config.DEFAULT_STYLE,
         onEachFeature: onEachFeature
       }).addTo(this.map);
     },
-    defaultStyle: {
-      weight: 2,
-      opacity: 1,
-      color: 'white',
-      dashArray: '3',
-      fillOpacity: 0.5,
-      fillColor: '#FFEDA0'
-    },
-    style: function (model){
-      var sumUp = this.collection.getVotes(model.get('CPTID'));
-      var fillColor = getColor( this.isDetailMode() ? model.get('votes') : sumUp);
+    renderLayers:function (_model){
+      var view = this;
+      var models = !_model ? this.collection.models : [_model];
+      _.each(models, function(model) {
+        _.each(model.get('layers'), function(layer) {              
+          layer.setStyle(view.style(model));
+        });
+      });
+      
+    },    style: function (model){
       return {
         fillOpacity: model.get('opacity'),
-        fillColor: fillColor
+        fillColor: getColor(model.get('votes'))
       };
     },
-    isDetailMode: function (){
-      return this.map.getZoom() > config.ZOOM;
-    },
-    focusOpacity: function (){
-      return this.isDetailMode() ? 0.8 : 0.7;
-    },
-    sameZoneOpacity: function (){
-      return this.isDetailMode() ? 0.9 : 0.9; 
-    },
-    blurOpacity: function (){
-      return this.isDetailMode() ? 0 : 0.5;
-    },
     highlightFeature: function(e, model) {
-      this.collection.setSameZone(model.get('CPTID'), {'opacity': this.sameZoneOpacity()});
-      model.set('opacity', this.focusOpacity());
+      model.set('opacity', config.FOCUS_OPACITY);
       var layer = e.target;
       if (!L.Browser.ie && !L.Browser.opera) {
-        layer.bringToFront();
+        _.each(model.get('layers'),function(layer) {
+          layer.bringToFront();
+        });
       }
     },
     resetHighlight: function (e, model){
-      this.collection.setSameZone(model.get('CPTID'), {'opacity': this.blurOpacity()});
+      model.set('opacity', config.BLUR_OPACITY);
     },
     zoomToFeature: function (e){
       this.map.setView(e.target.getBounds().getCenter(), config.ZOOM + 1);
