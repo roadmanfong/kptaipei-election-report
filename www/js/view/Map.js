@@ -28,15 +28,7 @@ define([
         zoomControl: false
       });
       this.map.attributionControl.addAttribution(config.ATTRIBUTION_CONTROL);
-      this.map.on('zoomend', function() {
-        view.collection.trigger('change');
-        view.collection.each(function(model) {
-          if(model.get('CPTID') === view.lastCPTID){
-            return;
-          }
-          model.set({opacity: view.blurOpacity()});
-        });
-      });
+      this.map.on('zoomend', this.onZoomend.bind(this));
 
       if(config.ENABLE_BG_MAP){
         L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
@@ -45,6 +37,14 @@ define([
           id: 'waneblade.k4nbn1c1'
         }).addTo(this.map);
       }
+
+      function injectStyles(rule) {
+        var div = $("<div />", {
+          html: '&shy;<style>' + rule + '</style>'
+        }).appendTo("body");    
+      }
+      injectStyles('.leaflet-container {background: ' + config.MAP_BG_COLOR + '; }', 1);
+      
 
       var viewInfo = new ViewInfo({
         map: this.map
@@ -96,7 +96,7 @@ define([
         onEachFeature: onEachFeature
       }).addTo(this.map);
     },
-    renderLayers:function (_model){
+    renderLayers: function (_model){
       var view = this;
       var models = !_model ? this.collection.models : [_model];
       _.each(models, function(model) {
@@ -104,8 +104,8 @@ define([
           layer.setStyle(view.style(model));
         });
       });
-      
-    },    style: function (model){
+    },    
+    style: function (model){
       return {
         fillOpacity: model.get('opacity'),
         fillColor: getColor(model.get('votes'))
@@ -128,8 +128,17 @@ define([
       // this.map.fitBounds(e.target.getBounds()); 
     },
     lastMouseOver: function (e, model){
-      this.lastCPTID = model.get('CPTID');
+      this.lastMouseOverId = model.get('id');
     },
+    onZoomend: function (){
+      this.collection.each(function(model) {
+        if(model.id === this.lastMouseOverId){
+          return;
+        } else {
+          model.trigger('change', model);
+        }
+      });
+    }
   });
 
   return Map;

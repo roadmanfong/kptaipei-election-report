@@ -1,6 +1,9 @@
 body{
 	margin: 0;
+	word-spacing: -4px;
+	font-family: "MHei","Lucida Grande", "Lucida Sans Unicode", "STHeiti", "Helvetica","Arial","Verdana","sans-serif";
 }
+
 #map {
 	position: fixed;
 	width: 100%;
@@ -31,4 +34,43 @@ body{
 	float: left;
 	margin-right: 8px;
 	opacity: 0.7;
+}
+
+#info {
+	position: fixed;
+	width: 100%;
+	box-shadow: 0 2px 2px rgba(50,50,60,1);
+	padding: 20px;
+	background: cornflowerblue;
+	box-sizing: border-box;
+	color: white;
+	display: none;
+}
+#info li{
+	list-style-type: none;
+}
+#info ul{
+	padding: 0;
+	margin: 0;
+}
+#info .district-name{
+	margin-top:10px;
+}
+
+#info .vote{
+	margin: 0;
+}
+#info .votes li:first-child{
+	float:left;
+	margin-left:5px;
+}
+#info .votes li:last-child{
+	float:right;
+	margin-right:5px;
+}
+#info .bars li{
+	transition: width 1s ease-in-out;
+	height: 20px;
+	display: inline-block;
+	/*float: left;*/
 }

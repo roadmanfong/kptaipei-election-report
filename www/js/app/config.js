@@ -1,7 +1,9 @@
 define(function() {
 	return {
-		SHEET_ID: '1Yx3j01MB6ISSvIjolv0hS33X4YOo2cbeQDb2bKPF2kM',
 		ATTRIBUTION_CONTROL: '白色力量',
+		//map
+		ENABLE_BG_MAP: false,
+		MAP_BG_COLOR: '#555',
 		ZOOM: 12,
 		MAX_ZOOM: 15,
 		MIN_ZOOM: 11,
@@ -18,6 +20,8 @@ define(function() {
 		},
 		FOCUS_OPACITY: 0.8,
 		BLUR_OPACITY: 0.3,
+		//data
+		SHEET_ID: '1Yx3j01MB6ISSvIjolv0hS33X4YOo2cbeQDb2bKPF2kM',
 		CANDIDATE: [
 			// {
 			// 	number: 1,
@@ -61,7 +65,6 @@ define(function() {
 				color: 'white',
 				avatar:''
 			}
-		],
-		ENABLE_BG_MAP: false
+		]
 	};
 });

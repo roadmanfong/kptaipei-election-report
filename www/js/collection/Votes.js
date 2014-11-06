@@ -56,11 +56,11 @@ define([
     },
     roll: function (){
       console.log('collection roll!!');
-      var result = _.map(collectionVotes.toJSON(), function(modelVote){
+      var result = _.map(this.toJSON(), function(modelVote){
         var votes = [];
 
         for(var i = 0 ; i < config.CANDIDATE.length ; i++){
-          votes.push(parseInt(Math.random()*10));
+          votes.push(parseInt(Math.random()*10000));
         }
 
         modelVote.votes = votes;

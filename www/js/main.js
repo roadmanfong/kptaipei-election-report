@@ -22,9 +22,10 @@ requirejs.config({
   }
 });
 requirejs([
+  'app/config',
   'view/Map',
   'collection/Votes'
-],function(ViewMap, CollectionVotes) {
+],function(config, ViewMap, CollectionVotes) {
   var collectionVotes = new CollectionVotes({},{
     geojsonData: villagesData
   });
@@ -32,7 +33,11 @@ requirejs([
     geojsonData: villagesData,//from tpe-villages.js
     collection: collectionVotes
   });
-  collectionVotes.fetch();
+
+  setTimeout(function(){
+    collectionVotes.roll();
+  }, 0);
+  // collectionVotes.fetch();
   // collectionVotes.startPolling();
   window.collectionVotes = collectionVotes;
 });
