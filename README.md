@@ -6,6 +6,8 @@
 * more constant number in config.js
 * tune performance?
 * 依區域顯示票
+* 放avatar?
+* 放侯選人data網路上, name, avatar, number 等等
 
 
 ## 里界圖

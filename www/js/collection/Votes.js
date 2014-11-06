@@ -41,8 +41,8 @@ define([
           parseInt(entry['gsx$white']['$t']),
           parseInt(entry['gsx$blue']['$t'])
         ];
-        if(votes.length !== config.CANDIDATES_NUM){
-          throw 'collection/votes.js parse function not matched config.CANDIDATES_NUM';
+        if(votes.length !== config.CANDIDATE.length){
+          throw 'collection/votes.js parse function not matched config.CANDIDATE.length';
         }
         return {
           id: entry['gsx$houseid']['$t'].toString(),
@@ -70,7 +70,7 @@ define([
       .map(function(model) {
         return model.get('votes');
       });
-      for( var i = 0 ; i < config.CANDIDATES_NUM ; i++){
+      for( var i = 0 ; i < config.CANDIDATE.length ; i++){
         var partSum = _.reduce(voteList, function(mem, num) {
           return mem + num[i];
         }, 0)
@@ -84,7 +84,7 @@ define([
       var result = _.map(properties, function(property){
         var votes = [];
 
-        for(var i = 0 ; i < config.CANDIDATES_NUM ; i++){
+        for(var i = 0 ; i < config.CANDIDATE.length ; i++){
           votes.push(parseInt(Math.random()*10));
         }
 
