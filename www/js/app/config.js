@@ -3,7 +3,7 @@ define(function() {
 		ATTRIBUTION_CONTROL: '白色力量',
 		//map
 		ENABLE_BG_MAP: false,
-		MAP_BG_COLOR: '#555',
+		MAP_BG_COLOR: '#989898',
 		ZOOM: 12,
 		MAX_ZOOM: 15,
 		MIN_ZOOM: 11,
@@ -56,7 +56,7 @@ define(function() {
 			{
 				number: 6,
 				name: '連勝文',
-				color: 'blue',
+				color: '#428bca',
 				avatar:''
 			},
 			{

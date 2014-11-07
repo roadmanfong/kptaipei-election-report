@@ -60,7 +60,7 @@ define([
         var votes = [];
 
         for(var i = 0 ; i < config.CANDIDATE.length ; i++){
-          votes.push(parseInt(Math.random()*10000));
+          votes.push(parseInt(Math.random()*1000000));
         }
 
         modelVote.votes = votes;
