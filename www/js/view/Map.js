@@ -36,14 +36,16 @@ define([
           attribution: '',
           id: 'waneblade.k4nbn1c1'
         }).addTo(this.map);
+      } else {
+        function injectStyles(rule) {
+          var div = $("<div />", {
+            html: '&shy;<style>' + rule + '</style>'
+          }).appendTo("body");    
+        }
+        injectStyles('.leaflet-container {background: ' + config.MAP_BG_COLOR + '; }', 1); 
       }
 
-      function injectStyles(rule) {
-        var div = $("<div />", {
-          html: '&shy;<style>' + rule + '</style>'
-        }).appendTo("body");    
-      }
-      injectStyles('.leaflet-container {background: ' + config.MAP_BG_COLOR + '; }', 1);
+
       
 
       var viewInfo = new ViewInfo({
