@@ -2,7 +2,7 @@ define(function() {
 	return {
 		ATTRIBUTION_CONTROL: '白色力量',
 		//map
-		ENABLE_BG_MAP: false,
+		ENABLE_BG_MAP: true,
 		MAP_BG_COLOR: '#989898',
 		ZOOM: 12,
 		MAX_ZOOM: 15,
@@ -18,8 +18,9 @@ define(function() {
 			fillOpacity: 0.5,
 			fillColor: '#FFEDA0'
 		},
-		FOCUS_OPACITY: 0.8,
-		BLUR_OPACITY: 0.3,
+		FOCUS_OPACITY: 0.9,
+		BLUR_OPACITY: 0.7,
+		TILE_LAYER_ID: 'waneblade.k4nbn1c1',
 		//data
 		SHEET_ID: '1Yx3j01MB6ISSvIjolv0hS33X4YOo2cbeQDb2bKPF2kM',
 		CANDIDATE: [

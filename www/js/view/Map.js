@@ -34,7 +34,7 @@ define([
         L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
           maxZoom: 18,
           attribution: '',
-          id: 'waneblade.k4nbn1c1'
+          id: config.TILE_LAYER_ID
         }).addTo(this.map);
       } else {
         function injectStyles(rule) {

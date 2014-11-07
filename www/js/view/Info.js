@@ -31,11 +31,14 @@ define([
         '<div class="vote">&nbsp;</div>' +
       '</li>'
     ),
+    originalName: null,
     update: function (model){
       if(model){
         var votes = model.get('votes');
         var total = _.reduce(votes, function(mem,num){return mem+num;}, 0);
-        $("#info .district-name").html(model.get('name'));
+
+        this.updateStrictName(model.get('name'));
+        
         for(var index = 0 ; index < votes.length ; index ++ ){
           var color = config.CANDIDATE[index].color;
           var $li = $('#info li').eq(index);
@@ -46,6 +49,27 @@ define([
         }
       }
     },
+    updateStrictName: _.debounce(function(name) {
+
+      if(this.originalName === name){
+        return;
+      }
+      var $districtName = $("#info .district-name");
+      if(!this.originalName){
+        this.originalName = name;
+        $districtName.html(name).show();
+        return;
+      }
+      this.originalName = name;
+
+      
+      $districtName
+      .stop(true, false)
+      .fadeOut('fast', function() {
+        $districtName.html(name);
+      })
+      .fadeIn('fast');
+    }, 100),
     toggleInfo: _.debounce(function(model) {
         $("#info").toggle(!!model);
     }, 10),
