@@ -3,6 +3,35 @@ body{
 	word-spacing: -4px;
 	font-family: "MHei","Lucida Grande", "Lucida Sans Unicode", "STHeiti", "Helvetica","Arial","Verdana","sans-serif";
 }
+#nav{
+	position: fixed;
+	width: 100%;
+	height: 50px;
+	background: white;
+	box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 17px 0px;
+	z-index: 1;
+	padding: 15px 40px;
+	color: gray;
+	box-sizing: border-box;
+	text-align: right;
+}
+#nav .title{
+	float:left;
+}
+#nav .title img{
+	width: 1.2em;
+	vertical-align: middle;
+	margin-top: -5px;
+	margin-right: 2px;
+}
+#nav .bar{
+	min-width: 1px;
+	height:20px;
+	background-color: green;
+}
+#nav .avatar{
+
+}
 
 #map {
 	position: fixed;
@@ -16,6 +45,7 @@ h1{
 
 #info {
 	position: absolute;
+	top: 50px;
 	width: 300px;
 	height:100%;
 	padding: 20px;

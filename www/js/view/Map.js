@@ -27,7 +27,7 @@ define([
         maxBounds: L.latLngBounds(config.LATLNG_BOUNDS[0], config.LATLNG_BOUNDS[1]),
         zoomControl: false
       });
-      this.map.attributionControl.addAttribution(config.ATTRIBUTION_CONTROL);
+      this.map.attributionControl.addAttribution(config.ATTRIBUTION_CONTROL + ' | 5秒前更新');
       this.map.on('zoomend', this.onZoomend.bind(this));
 
       if(config.ENABLE_BG_MAP){

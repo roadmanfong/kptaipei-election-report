@@ -13,12 +13,11 @@ define(function() {
 		DEFAULT_STYLE: {
 			weight: 2,
 			opacity: 1,
-			color: 'white',
-			dashArray: '2',
+			color: '#bbb',
 			fillOpacity: 0.5,
 			fillColor: '#FFEDA0'
 		},
-		FOCUS_OPACITY: 0.9,
+		FOCUS_OPACITY: 1,
 		BLUR_OPACITY: 0.7,
 		TILE_LAYER_ID: 'waneblade.k4nbn1c1',
 		//data
