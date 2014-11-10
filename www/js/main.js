@@ -33,11 +33,16 @@ requirejs([
     geojsonData: villagesData,//from tpe-villages.js
     collection: collectionVotes
   });
-
+  $.ajaxSetup({
+    headers:{
+      "X-Parse-Application-Id": config.APP_ID,
+      "X-Parse-REST-API-Key": config.APP_KEY
+    }
+  });
   setTimeout(function(){
     collectionVotes.roll();
   }, 0);
-  // collectionVotes.fetch();
+  // collectionVotes.fetch({remove: false});
   // collectionVotes.startPolling();
   window.collectionVotes = collectionVotes;
 });

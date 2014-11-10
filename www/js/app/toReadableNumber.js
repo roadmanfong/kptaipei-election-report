@@ -1,7 +1,8 @@
 define(function(){
   function toReadableNumber(number) {
-    var underThousand = number%1000;
-    return (number - underThousand)/1000 + '萬' + underThousand;
+    var underThousand = number%10000;
+    var beyoundThounsand = (number - underThousand)/10000;
+    return  (beyoundThounsand ? beyoundThounsand + '萬' : '') + underThousand;
   }
   return toReadableNumber;
 });

@@ -21,13 +21,14 @@ define([
       this.geojsonData = options.geojsonData;
       this.map = L.map('map',{
         center: config.CENTER,
+        dragging: config.DRAGGING,
         zoom: config.ZOOM,
         maxZoom: config.MAX_ZOOM,
         minZoom: config.MIN_ZOOM,
         maxBounds: L.latLngBounds(config.LATLNG_BOUNDS[0], config.LATLNG_BOUNDS[1]),
         zoomControl: false
       });
-      this.map.attributionControl.addAttribution(config.ATTRIBUTION_CONTROL + ' | 5秒前更新');
+      this.map.attributionControl.addAttribution(config.ATTRIBUTION_CONTROL);
       this.map.on('zoomend', this.onZoomend.bind(this));
 
       if(config.ENABLE_BG_MAP){
@@ -44,10 +45,7 @@ define([
         }
         injectStyles('.leaflet-container {background: ' + config.MAP_BG_COLOR + '; }', 1); 
       }
-
-
       
-
       var viewInfo = new ViewInfo({
         map: this.map
       });
@@ -59,11 +57,11 @@ define([
       this.on('mouseout', viewInfo.onMouseOut.bind(viewInfo));
       this.on('mouseover', this.highlightFeature);
       this.on('mouseout', this.resetHighlight);
-      this.on('click', this.zoomToFeature);
       this.on('mouseover', this.lastMouseOver);
 
       this.collection.on('reset', this.generateGeoJson, this);
       this.collection.on('change', this.renderLayers, this);
+      this.collection.on('sync', this.renderUpdateTime, this);
       // get color depending on votes value
     },
     generateGeoJson: function (){
@@ -125,10 +123,6 @@ define([
     resetHighlight: function (e, model){
       model.set('opacity', config.BLUR_OPACITY);
     },
-    zoomToFeature: function (e){
-      this.map.setView(e.target.getBounds().getCenter(), config.ZOOM + 1);
-      // this.map.fitBounds(e.target.getBounds()); 
-    },
     lastMouseOver: function (e, model){
       this.lastMouseOverId = model.get('id');
     },
@@ -140,8 +134,10 @@ define([
           model.trigger('change', model);
         }
       });
+    },
+    renderUpdateTime: function() {
+      this.map.attributionControl.addAttribution(config.ATTRIBUTION_CONTROL + '&nbsp;|&nbsp;' + (new Date()).toLocaleString() +'更新');
     }
   });
-
   return Map;
 })

@@ -1,14 +1,18 @@
 define(function() {
 	return {
-		ATTRIBUTION_CONTROL: '白色力量',
+		//parse.com
+		APP_ID: "CPFQXuoHErkxiN8b3uDFuGuGBnZbLen9jglvAB4p",
+		APP_KEY: "u7LyStVeHzbwCBMlW0rkH8Xby31mRymQiVkeJNKG",
+		ATTRIBUTION_CONTROL: '',
 		//map
-		ENABLE_BG_MAP: true,
+		ENABLE_BG_MAP: false,
 		MAP_BG_COLOR: '#989898',
+		DRAGGING: false,
 		ZOOM: 12,
-		MAX_ZOOM: 15,
-		MIN_ZOOM: 11,
+		MAX_ZOOM: 12,
+		MIN_ZOOM: 12,
 		LATLNG_BOUNDS: [[24,121], [26,122]],
-		CENTER: [25.07, 121.548781],
+		CENTER: [25.09, 121.5],
 		POLLING_TIME_MS: 30000,
 		DEFAULT_STYLE: {
 			weight: 2,
@@ -21,7 +25,6 @@ define(function() {
 		BLUR_OPACITY: 0.7,
 		TILE_LAYER_ID: 'waneblade.k4nbn1c1',
 		//data
-		SHEET_ID: '1Yx3j01MB6ISSvIjolv0hS33X4YOo2cbeQDb2bKPF2kM',
 		CANDIDATE: [
 			// {
 			// 	number: 1,

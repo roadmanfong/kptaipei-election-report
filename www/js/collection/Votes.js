@@ -12,10 +12,7 @@ define([
   /*global villagesData*/
   var Votes = Backbone.Collection.extend({
     model: ModelVote,
-    url: function (){
-      return 'https://spreadsheets.google.com/feeds/list/' + 
-      config.SHEET_ID +'/1/public/values?alt=json-in-script&callback=?';
-    },
+    url: 'https://api.parse.com/1/classes/DistrictTicket',
     initialize: function (collection, options){
       var properties = _.pluck(options.geojsonData.features,'properties');
       var districts = {};
@@ -31,26 +28,11 @@ define([
       });
       setTimeout(this.reset.bind(this), 0, _(districts).toArray());
     },
-    fetch: function (){
-      // console.log('collection fetch!!');
-      var that = this;
-      $.getJSON(this.url(), function(response) {
-        that.set(response, {remove: false, parse: true, silent: true});
-        // that.triggerModelsChange();
-      });
-    },
     parse: function(response) {
-      return _.map(response.feed.entry, function(entry) {
-        var votes = [
-          parseInt(entry['gsx$white']['$t']),
-          parseInt(entry['gsx$blue']['$t'])
-        ];
-        if(votes.length !== config.CANDIDATE.length){
-          throw 'collection/votes.js parse function not matched config.CANDIDATE.length';
-        }
+      return _.map(response.results, function(object) {
         return {
-          id: entry['gsx$houseid']['$t'].toString(),
-          votes: votes
+          id: object.districtId,
+          votes: [object.candidate6 || 0, object.candidate7 || 0]
         };
       });
     },
@@ -73,7 +55,7 @@ define([
     },
     startPolling: function (){
       clearInterval(this.pollingId);
-      this.pollingId = setInterval(this.fetch.bind(this), config.POLLING_TIME_MS);
+      this.pollingId = setInterval(this.fetch.bind(this, {remove: false}), config.POLLING_TIME_MS);
     },
     stopPolling: function (){
       clearInterval(this.pollingId);
