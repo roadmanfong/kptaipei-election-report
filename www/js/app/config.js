@@ -1,8 +1,9 @@
 define(function() {
-	return {
+	var config = {
 		//parse.com
 		APP_ID: "CPFQXuoHErkxiN8b3uDFuGuGBnZbLen9jglvAB4p",
-		APP_KEY: "u7LyStVeHzbwCBMlW0rkH8Xby31mRymQiVkeJNKG",
+		APP_REST_KEY: "u7LyStVeHzbwCBMlW0rkH8Xby31mRymQiVkeJNKG",
+		APP_JS_KEY: "qvHqLCDitrqkwAL3bSbMfbdcYlUY9wlfVJZmom3S",
 		ATTRIBUTION_CONTROL: '',
 		//map
 		ENABLE_BG_MAP: false,
@@ -70,4 +71,6 @@ define(function() {
 			}
 		]
 	};
+	window.config = config;
+	return config;
 });

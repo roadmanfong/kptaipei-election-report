@@ -35,10 +35,11 @@ requirejs([
   });
   $.ajaxSetup({
     headers:{
-      "X-Parse-Application-Id": config.APP_ID,
-      "X-Parse-REST-API-Key": config.APP_KEY
+      'X-Parse-Application-Id': config.APP_ID,
+      'X-Parse-REST-API-Key': config.APP_REST_KEY
     }
   });
+  //Parse.initialize(config.APP_ID, config.APP_JS_KEY);
   setTimeout(function(){
     collectionVotes.roll();
   }, 0);
