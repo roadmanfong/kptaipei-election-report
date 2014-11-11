@@ -24,8 +24,9 @@ requirejs.config({
 requirejs([
   'app/config',
   'view/Map',
-  'collection/Votes'
-],function(config, ViewMap, CollectionVotes) {
+  'collection/Votes',
+  'view/Pie'
+],function(config, ViewMap, CollectionVotes, ViewPie) {
   var collectionVotes = new CollectionVotes({},{
     geojsonData: villagesData
   });
@@ -43,6 +44,10 @@ requirejs([
   setTimeout(function(){
     collectionVotes.roll();
   }, 0);
+
+  var viewPie = new ViewPie({
+    collection: collectionVotes
+  });
   // collectionVotes.fetch({remove: false});
   // collectionVotes.startPolling();
   window.collectionVotes = collectionVotes;

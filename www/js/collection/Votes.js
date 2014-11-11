@@ -60,6 +60,28 @@ define([
     stopPolling: function (){
       clearInterval(this.pollingId);
     },
+    getTotal: function (){
+      var total = [];
+
+      var initArray = [];
+      for(var i = 0; i < config.CANDIDATE.length; i++) {
+          initArray.push(0);
+      }
+
+      total = _.reduce(this.toJSON(), function(mem, item) {
+        return _.each(mem, function(element, index, list) {
+          mem[index] += item.votes[index];
+        });
+      }, initArray);
+
+      return _.map(total, function(value, key, list) {
+        return {
+          value: value,
+          color: config.CANDIDATE[key].color,
+          label: config.CANDIDATE[key].name
+        }
+      })
+    },
   });
   return Votes;
 });

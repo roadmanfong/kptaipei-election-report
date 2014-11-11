@@ -1,0 +1,14 @@
+#myChart{
+	width:200px;
+	height: 200px;
+}
+
+.pie-legend .bullet{
+	display: inline-block;
+	width: .8em;
+	height: .8em;
+	margin-right: .2em;
+}
+.pie-legend .vote{
+	margin-left: .2em;
+}

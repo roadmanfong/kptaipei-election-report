@@ -6,11 +6,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="css/leaflet.css" />
 	<link rel="stylesheet" href="css/main.css" />
+	<link rel="stylesheet" href="css/chart.css" />
+
 </head>
 <body>
 	<div id="nav">
 		<div class="title">
-			<img src="img/Vote1.svg" alt="">
+			<img src="img/Vote1.png" alt="">
 			2014台北市市長選舉
 		</div>
 		<label>前兩名:</label>
@@ -23,13 +25,17 @@
 		<div class="complete-percentage">97%</div>
 		<hr/>
 		<ul class="district-vote"></ul>
+		<h2>總開票數</h2>
+		<hr/>
+		<canvas id="myChart"></canvas>
+		<div id="legend"></div>
+
 		<h2>指標里開票</h2>	
 		<hr />
 		<ul>
 			<li><strong>湖山里</strong></li>
 			<li><strong>天玉里</strong></li>
 		</ul>
-
 	</div>
 	<script src="http://www.parsecdn.com/js/parse-1.3.1.min.js"></script>
 	<script src="js/app/tpe-villages.js"></script>
