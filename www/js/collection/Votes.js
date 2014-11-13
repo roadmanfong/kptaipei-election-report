@@ -12,24 +12,40 @@ define([
   /*global villagesData*/
   var Votes = Backbone.Collection.extend({
     model: ModelVote,
-    url: 'https://api.parse.com/1/classes/DistrictTicket',
+    // url: 'https://api.parse.com/1/functions/GetAllDistrictTicket',
     initialize: function (collection, options){
-      var properties = _.pluck(options.geojsonData.features,'properties');
-      var districts = {};
-      var startValues = _.map(properties, function(property){
-        var district = districts[property.CPTID];
-        if(!district){
-          district = {villages:[]};
-          district.name = property.TNAME;
-          districts[property.CPTID] = district;//link back when first created
-        }
-        district.id = property.CPTID;
-        district.villages.push(property.CPTVID);
-      });
-      setTimeout(this.reset.bind(this), 0, _(districts).toArray());
+      options = options || {};
+      if(options.geojsonData){
+        var properties = _.pluck(options.geojsonData.features,'properties');
+        var districts = {};
+        var startValues = _.map(properties, function(property){
+          var district = districts[property.CPTID];
+          if(!district){
+            district = {villages:[]};
+            district.name = property.TNAME;
+            districts[property.CPTID] = district;//link back when first created
+          }
+          district.id = property.CPTID;
+          district.villages.push(property.CPTVID);
+        });
+        setTimeout(this.reset.bind(this), 0, _(districts).toArray());
+      }
+    },
+    fetch: function(options) {
+      options = options ? _.clone(options) : {};
+      if (options.parse === void 0) options.parse = true;
+      var success = options.success;
+      var collection = this;
+      options.success = function(resp) {
+        var method = options.reset ? 'reset' : 'set';
+        collection[method](resp, options);
+        if (success) success(collection, resp, options);
+        collection.trigger('sync', collection, resp, options);
+      };
+      Parse.Cloud.run('GetAllDistrictTicket', {}, options.success);
     },
     parse: function(response) {
-      return _.map(response.results, function(object) {
+      return _.map(response, function(object) {
         return {
           id: object.districtId,
           votes: [object.candidate6 || 0, object.candidate7 || 0]

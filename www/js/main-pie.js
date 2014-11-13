@@ -32,12 +32,12 @@ requirejs([
   var collectionVotes = new CollectionVotes({},{
     geojsonData: villagesData
   });
-  var viewMap = new ViewMap({
-    geojsonData: villagesData,//from tpe-villages.js
+ 
+  setTimeout(collectionVotes.roll.bind(collectionVotes), 0);
+
+  var viewPie = new ViewPie({
     collection: collectionVotes
   });
-  // setTimeout(collectionVotes.roll.bind(collectionVotes), 0);
-
   // collectionVotes.fetch({remove: false});
   // collectionVotes.startPolling();
   window.collectionVotes = collectionVotes;

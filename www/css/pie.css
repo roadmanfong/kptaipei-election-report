@@ -1,0 +1,26 @@
+#container{
+	text-align: center;
+	padding: 50px;
+}
+.pie-legend .bullet{
+	display: inline-block;
+	width: .8em;
+	height: .8em;
+	margin-right: .2em;
+}
+.pie-legend .vote{
+	margin-left: .2em;
+}
+li{
+	list-style-type: none;
+}
+#legend{
+	position: absolute;
+	left: 0;
+	top: 100px;
+}
+#update-time{
+	position: fixed;
+	bottom: 5px;
+	right: 5px;
+}

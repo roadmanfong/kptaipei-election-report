@@ -7,7 +7,7 @@ define(function() {
 		ATTRIBUTION_CONTROL: '',
 		//map
 		ENABLE_BG_MAP: false,
-		MAP_BG_COLOR: '#989898',
+		// MAP_BG_COLOR: '#989898',
 		DRAGGING: false,
 		ZOOM: 12,
 		MAX_ZOOM: 12,
