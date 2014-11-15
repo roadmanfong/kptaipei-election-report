@@ -20,8 +20,9 @@ define(function() {
 			opacity: 1,
 			color: '#bbb',
 			fillOpacity: 0.5,
-			fillColor: '#FFEDA0'
+			fillColor: 'lightgray'
 		},
+		NO_DATA_COLOR: 'lightgray',
 		FOCUS_OPACITY: 1,
 		BLUR_OPACITY: 0.7,
 		TILE_LAYER_ID: 'waneblade.k4nbn1c1',

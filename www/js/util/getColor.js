@@ -7,8 +7,9 @@ define([
 ) {
   function getColor(votes) {
     // console.log(votes[0] + ',' + votes[1]);
-    var index = _.indexOf(votes, _.max(votes));
-    return config.CANDIDATE[index].color;
+    var maxVote = _.max(votes);
+    var index = _.indexOf(votes, maxVote);
+    return maxVote <= 0 ? config.NO_DATA_COLOR : config.CANDIDATE[index].color;
   }
   return getColor;
 })

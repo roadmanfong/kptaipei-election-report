@@ -37,11 +37,11 @@ define([
     originalName: null,
     update: function (model){
       if(model){
-        this.updateStrictName(model.get('name'));
+        this.updateDistrictName(model.get('name'));
       }
     },
-    updateStrictName: _.debounce(function(name) {
-      if(this.originalName === name){
+    updateDistrictName: _.debounce(function(name) {
+      if(this.originalName &&　this.originalName === name){
         return;
       }
       var $districtName = $("#info .district-name");
@@ -61,12 +61,12 @@ define([
     toggleInfo: _.debounce(function(model) {
         $("#info").toggle(!!model);
     }, 10),
-    onMouseOver: _.debounce(function(e, model) {
+    onMouseOver: _.debounce(function(model) {
       this.toggleInfo(model);
       this.update(model);
       this.districtBar.model.set(model.toJSON());
     }, 10),
-    onMouseOut: _.debounce(function (e, model){
+    onMouseOut: _.debounce(function (model){
       // this.toggleInfo();
       this.update();
     }, 10)

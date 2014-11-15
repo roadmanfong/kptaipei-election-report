@@ -26,8 +26,8 @@ module.exports = function(grunt) {
           baseUrl: 'www/js',
           include: 'main',
           name: 'lib/almond', // assumes a production build using almond
-          out: 'www/js/main-min.js',
-          mainConfigFile: 'www/js/main.js'
+          out: 'www/js/main-index-min.js',
+          mainConfigFile: 'www/js/main-index.js'
         }
       }
     }

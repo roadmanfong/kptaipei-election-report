@@ -50,6 +50,8 @@ define([
       this.collection.on('reset', this.generateGeoJson, this);
       this.collection.on('change', this.renderLayers, this);
       this.collection.on('sync', this.renderUpdateTime, this);
+
+      setTimeout(this.randomMouseOver.bind(this), 1);
       // get color depending on votes value
     },
     generateGeoJson: function (){
@@ -61,21 +63,22 @@ define([
           console.warn('CPTID ' + feature.properties.CPTID + ' not exists');
           return;
         }
-        var layers = model.get('layers');
-        if(!layers){
-          model.set('layers', [], {silent: true});
-        }
-        model.get('layers').push(layer);
+        // var layers = model.get('layers');
+        // if(!layers){
+        //   model.set('layers', [], {silent: true});
+        // }
+        // model.get('layers').push(layer);
 
+        model.set('layer', layer);
         layer.on({
           mouseover: function(e) {
-            view.trigger('mouseover', e, model);
+            view.trigger('mouseover', model);
           },
           mouseout: function(e) {
-            view.trigger('mouseout', e, model);
+            view.trigger('mouseout', model);
           },
           click: function(e) {
-            view.trigger('click', e, model);
+            view.trigger('click', model);
           }
         });
       }
@@ -88,9 +91,7 @@ define([
       var view = this;
       var models = !_model ? this.collection.models : [_model];
       _.each(models, function(model) {
-        _.each(model.get('layers'), function(layer) {              
-          layer.setStyle(view.style(model));
-        });
+        model.get('layer').setStyle(view.style(model));
       });
     },    
     style: function (model){
@@ -99,19 +100,19 @@ define([
         fillColor: getColor(model.get('votes'))
       };
     },
-    highlightFeature: function(e, model) {
+    highlightFeature: function(model) {
       model.set('opacity', config.FOCUS_OPACITY);
-      var layer = e.target;
+      var layer = model.get('layer');
       if (!L.Browser.ie && !L.Browser.opera) {
         _.each(model.get('layers'),function(layer) {
           layer.bringToFront();
         });
       }
     },
-    resetHighlight: function (e, model){
+    resetHighlight: function (model){
       model.set('opacity', config.BLUR_OPACITY);
     },
-    lastMouseOver: function (e, model){
+    lastMouseOver: function (model){
       this.lastMouseOverId = model.get('id');
     },
     onZoomend: function (){
@@ -125,6 +126,10 @@ define([
     },
     renderUpdateTime: function() {
       this.map.attributionControl.addAttribution(config.ATTRIBUTION_CONTROL + '&nbsp;|&nbsp;' + (new Date()).toLocaleString() +'更新');
+    },
+    randomMouseOver: function() {
+      randomModel = collectionVotes.at(0);
+      this.trigger('mouseover', randomModel);
     }
   });
   return Map;

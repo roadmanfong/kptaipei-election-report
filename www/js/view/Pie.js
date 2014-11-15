@@ -22,6 +22,7 @@ define([
       });
       this.listenTo(this.collection, 'sync change', this.render, this);
       this.listenTo(this.collection, 'sync change', this.renderUpdateTime, this);
+      this.render();
     },
     render: _.debounce(function (){
       console.log('Pie render');

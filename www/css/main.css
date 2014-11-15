@@ -11,7 +11,7 @@
 	padding: 20px;
 	background: rgba(0,0,0,.5);
 	color: white;
-	display: none;
+	/*display: none;*/
 }
 #info li{
 	list-style-type: none;
@@ -26,7 +26,6 @@
 	position: absolute;
 	right: 40px;
 	top: 48px;
-	font-size: 2em;
 }
 #info .candidate-number{
 	border: 1px solid white;

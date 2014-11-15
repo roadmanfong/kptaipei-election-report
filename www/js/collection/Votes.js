@@ -92,7 +92,7 @@ define([
 
       return _.map(total, function(value, key, list) {
         return {
-          value: value,
+          value: value || 1,
           color: config.CANDIDATE[key].color,
           label: config.CANDIDATE[key].name
         }

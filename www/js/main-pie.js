@@ -27,18 +27,30 @@ requirejs([
   'collection/Votes',
   'view/Pie'
 ],function(config, ViewMap, CollectionVotes, ViewPie) {
+  /* global Parse */
   Parse.initialize(config.APP_ID, config.APP_JS_KEY);
 
   var collectionVotes = new CollectionVotes({},{
     geojsonData: villagesData
   });
  
-  setTimeout(collectionVotes.roll.bind(collectionVotes), 0);
-
   var viewPie = new ViewPie({
     collection: collectionVotes
   });
-  // collectionVotes.fetch({remove: false});
-  // collectionVotes.startPolling();
+
+  var pollingId;
+  window.startPolling = function() {
+    console.log('startPolling');
+    pollingId = setInterval(function() {
+      collectionVotes.fetch({remove: false});
+    }, config.POLLING_TIME_MS);
+    collectionVotes.fetch({remove: false});
+  };
+  window.stopPolling = function() {
+    console.log('stopPolling');
+    clearInterval(pollingId);
+  };
+  window.startPolling();
+
   window.collectionVotes = collectionVotes;
 });
