@@ -1,56 +1,46 @@
 define([
   'app/config',
   'app/toReadableNumber',
+  'view/Bar',
   'underscore',
   'backbone',
   'jquery',
-  'leaflet'
 ],function(
   config,
   toReadableNumber,
+  ViewBar,
   _,
   Backbone,
-  $,
-  L
+  $
 ) {
   var Info = Backbone.View.extend({
     initialize: function(options) {
       var that = this;
-      var elm = _.reduce(config.CANDIDATE, function(mem, candidate) {
-        return mem + that.template(candidate);
-      }, '');
-      $("#info .district-vote").html(elm);
+
+      this.districtBar = new ViewBar({
+        el: '#info .district-vote',
+        model: new Backbone.Model()
+      });
+
+      this.villageABar = new ViewBar({
+        el: '#info .village-a-vote',
+        model: options.villageA
+      });
+
+      this.villageBBar = new ViewBar({
+        el: '#info .village-b-vote',
+        model: options.villageB
+      });
 
       this.maxWidth = parseInt($("#info .bar").first().css('max-width'));
     },
-    template: _.template(
-      '<li>' +
-        '<div class="candidate-number"><%= number %></div>' +
-        '<div class="candidate-name"><%= name %></div>' + 
-        '<div class="bar" style="background:<%= color %>">&nbsp;</div>' +
-        '<div class="vote">&nbsp;</div>' +
-      '</li>'
-    ),
     originalName: null,
     update: function (model){
       if(model){
-        var votes = model.get('votes');
-        var total = _.reduce(votes, function(mem,num){return mem+num;}, 0);
-
         this.updateStrictName(model.get('name'));
-        
-        for(var index = 0 ; index < votes.length ; index ++ ){
-          var color = config.CANDIDATE[index].color;
-          var $li = $('#info li').eq(index);
-          $li.find('.vote')
-          .html(toReadableNumber(votes[index]));
-          $li.find('.bar')
-          .width(parseInt(votes[index]*this.maxWidth/total));
-        }
       }
     },
     updateStrictName: _.debounce(function(name) {
-
       if(this.originalName === name){
         return;
       }
@@ -61,8 +51,6 @@ define([
         return;
       }
       this.originalName = name;
-
-      
       $districtName
       .stop(true, false)
       .fadeOut('fast', function() {
@@ -76,6 +64,7 @@ define([
     onMouseOver: _.debounce(function(e, model) {
       this.toggleInfo(model);
       this.update(model);
+      this.districtBar.model.set(model.toJSON());
     }, 10),
     onMouseOut: _.debounce(function (e, model){
       // this.toggleInfo();

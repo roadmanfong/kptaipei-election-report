@@ -3,16 +3,12 @@ define([
   'underscore',
   'backbone',
   'leaflet',
-  'view/info',
-  'view/legend',
   'util/getColor'
 ], function(
   config,
   _,
   Backbone,
   L,
-  ViewInfo,
-  ViewLegend,
   getColor
 ) {
   var Map = Backbone.View.extend({
@@ -46,15 +42,7 @@ define([
         injectStyles('.leaflet-container {background: ' + config.MAP_BG_COLOR + '; }', 1); 
       }
       
-      var viewInfo = new ViewInfo({
-        map: this.map
-      });
-      var viewLegend = new ViewLegend({
-        map: this.map
-      });
 
-      this.on('mouseover', viewInfo.onMouseOver.bind(viewInfo));
-      this.on('mouseout', viewInfo.onMouseOut.bind(viewInfo));
       this.on('mouseover', this.highlightFeature);
       this.on('mouseout', this.resetHighlight);
       this.on('mouseover', this.lastMouseOver);
