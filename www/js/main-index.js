@@ -7,6 +7,7 @@ requirejs.config({
     'underscore': 'lib/underscore',
     'backbone': 'lib/backbone',
     'leaflet': 'lib/leaflet',
+    'parse': 'lib/parse-1.3.1'
   },
   shim: {
     'backbone': {
@@ -18,11 +19,15 @@ requirejs.config({
     },
     'leaflet':{
       exports: 'L'
+    },
+    'parse': {
+      exports: 'Parse'
     }
   }
 });
 requirejs([
   'app/config',
+  'parse',
   'view/info',
   'view/Map',
   'model/Vote',
@@ -30,10 +35,11 @@ requirejs([
   'view/Pie'
 ], function(
   config,
+  Parse,
   ViewInfo,
-  ViewMap, 
+  ViewMap,
   ModelVote,
-  CollectionVotes, 
+  CollectionVotes,
   ViewPie
 ) {
   /* global Parse */

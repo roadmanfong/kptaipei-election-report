@@ -1,24 +1,36 @@
 #container{
 	text-align: center;
-	padding: 50px;
+	width: 700px;
+	margin: 0 auto;
+	padding-top: 100px;
+	position: relative;
 }
-.pie-legend .bullet{
+#legend{
+	position: relative;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	top: -250px;
+}
+#legend .bullet{
 	display: inline-block;
 	width: .8em;
 	height: .8em;
 	margin-right: .2em;
 }
-.pie-legend .vote{
+#legend .vote{
 	margin-left: .2em;
 }
 li{
 	list-style-type: none;
 }
-#legend{
-	position: absolute;
-	left: 0;
-	top: 100px;
+li:first-child{
+	float: right;
 }
+li:last-child{
+	float: left;
+}
+
 #update-time{
 	position: fixed;
 	bottom: 5px;

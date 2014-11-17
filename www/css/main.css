@@ -29,11 +29,13 @@
 }
 #info .candidate-number{
 	border: 1px solid white;
-	border-radius: 100px;
-	width: 20px;
+	border-radius: 20px;
+	width: 16px;
+	height: 16px;
+	line-height: 16px;
 	text-align: center;
 	box-sizing: border-box;
-	font-size: .5em;
+	font-size: .8em;
 	margin-right: 2px;
 }
 #info .candidate-name{

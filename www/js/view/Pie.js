@@ -17,8 +17,17 @@ define([
       var ctx = document.getElementById("myChart").getContext("2d");
       this.myPieChart = new Chart(ctx)
       .Pie(this.collection.getTotal(), {
-        percentageInnerCutout : 50, // This is 0 for Pie charts
-        legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span class=\"bullet\" style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><span class=\"vote\"><%=toReadableNumber(segments[i].value)%></span><%}%>票</li><%}%></ul>"
+        percentageInnerCutout : 0, // This is 0 for Pie charts
+        legendTemplate : ""
+          +   "<% for (var i=0; i<segments.length; i++){%>"
+          +   "<li>"
+          +     "<span class=\"bullet\" style=\"background-color:<%=segments[i].fillColor%>\"></span>"
+          +     "<h1>"
+          +       "<%=segments[i].label%>"
+          +     "</h1>"
+          +       "<h3 class=\"vote\"><%=toReadableNumber(segments[i].value)%></h3>"
+          +   "</li>"
+          +   "<%}%>"
       });
       this.listenTo(this.collection, 'sync change', this.render, this);
       this.listenTo(this.collection, 'sync change', this.renderUpdateTime, this);

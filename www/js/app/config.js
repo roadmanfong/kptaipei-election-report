@@ -19,12 +19,12 @@ define(function() {
 			weight: 2,
 			opacity: 1,
 			color: '#bbb',
-			fillOpacity: 0.5,
+			fillOpacity: 0.9,
 			fillColor: 'lightgray'
 		},
 		NO_DATA_COLOR: 'lightgray',
 		FOCUS_OPACITY: 1,
-		BLUR_OPACITY: 0.7,
+		BLUR_OPACITY: 0.9,
 		TILE_LAYER_ID: 'waneblade.k4nbn1c1',
 		//data
 		CANDIDATE: [
