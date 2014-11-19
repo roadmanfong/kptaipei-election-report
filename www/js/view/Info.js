@@ -31,8 +31,8 @@ define([
         el: '#info .village-b-vote',
         model: options.villageB
       });
-
-      this.maxWidth = parseInt($("#info .bar").first().css('max-width'));
+      this.listenTo(this.collection, 'sync', this.renderProgress);
+      this.maxWidth = parseInt($('#info .bar').first().css('max-width'));
     },
     originalName: null,
     update: function (model){
@@ -40,11 +40,14 @@ define([
         this.updateDistrictName(model.get('name'));
       }
     },
+    renderProgress: function (){
+      $('#progress-percentage').html(this.collection.getProgress());
+    },
     updateDistrictName: _.debounce(function(name) {
       if(this.originalName &&　this.originalName === name){
         return;
       }
-      var $districtName = $("#info .district-name");
+      var $districtName = $('#info .district-name');
       if(!this.originalName){
         this.originalName = name;
         $districtName.html(name).show();
@@ -59,7 +62,7 @@ define([
       .fadeIn('fast');
     }, 100),
     toggleInfo: _.debounce(function(model) {
-        $("#info").toggle(!!model);
+        $('#info').toggle(!!model);
     }, 10),
     onMouseOver: _.debounce(function(model) {
       this.toggleInfo(model);

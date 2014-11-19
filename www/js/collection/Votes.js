@@ -46,9 +46,12 @@ define([
     },
     parse: function(response) {
       return _.map(response, function(object) {
+        console.log(object.unfinishedVoteHouse);
         return {
           id: object.districtId,
-          votes: [object.candidate6 || 0, object.candidate7 || 0]
+          votes: [object.candidate6 || 0, object.candidate7 || 0],
+          totalVoteHouseCount: object.totalVoteHouseCount,
+          unfinishedVoteHouse: object.unfinishedVoteHouse
         };
       });
     },
@@ -56,11 +59,9 @@ define([
       console.log('collection roll!!');
       var result = _.map(this.toJSON(), function(modelVote){
         var votes = [];
-
         for(var i = 0 ; i < config.CANDIDATE.length ; i++){
           votes.push(parseInt(Math.random()*1000000));
         }
-
         modelVote.votes = votes;
         return modelVote;
       });
@@ -75,6 +76,21 @@ define([
     },
     stopPolling: function (){
       clearInterval(this.pollingId);
+    },
+    getTotalVoteHouseCount: function (){
+      return this.reduce(function(mem, model) {
+        return mem + model.get('totalVoteHouseCount');
+      }, 0);
+    },
+    getUnfinishedVoteHouse: function (){
+      return this.reduce(function(mem, model) {
+        return mem + model.get('unfinishedVoteHouse');
+      }, 0);
+    },
+    getProgress: function (){
+      var noDataNum = this.getUnfinishedVoteHouse();
+      var totalNum = this.getTotalVoteHouseCount();
+      return  ((totalNum - noDataNum)*100 / totalNum).toFixed(1) + '%';
     },
     getTotal: function (){
       var total = [];

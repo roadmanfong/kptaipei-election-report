@@ -3,12 +3,8 @@
 
 ## TODO
 
-* votes 應為多欄位 1 ~ 7號參選人 廢票 未開票
-* more constant number in config.js
-* tune performance?
-* 依區域顯示票
-* 放avatar?
-* 放侯選人data網路上, name, avatar, number 等等
+* 輪播
+* 拍照
 
 
 ## 里界圖

@@ -64,6 +64,7 @@ requirejs([
 
 
   var viewInfo = new ViewInfo({
+    collection: collectionVotes,
     map: viewMap.map,
     villageA: villageA,
     villageB: villageB

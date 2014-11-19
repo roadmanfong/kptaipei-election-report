@@ -30,9 +30,3 @@ li:first-child{
 li:last-child{
 	float: left;
 }
-
-#update-time{
-	position: fixed;
-	bottom: 5px;
-	right: 5px;
-}

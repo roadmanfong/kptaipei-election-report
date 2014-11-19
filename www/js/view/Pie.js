@@ -14,23 +14,25 @@ define([
   window.toReadableNumber = toReadableNumber;
   var Pie = Backbone.View.extend({
     initialize: function() {
-      var ctx = document.getElementById("myChart").getContext("2d");
+      var ctx = document.getElementById('myChart').getContext('2d');
       this.myPieChart = new Chart(ctx)
       .Pie(this.collection.getTotal(), {
         percentageInnerCutout : 0, // This is 0 for Pie charts
-        legendTemplate : ""
-          +   "<% for (var i=0; i<segments.length; i++){%>"
-          +   "<li>"
-          +     "<span class=\"bullet\" style=\"background-color:<%=segments[i].fillColor%>\"></span>"
-          +     "<h1>"
-          +       "<%=segments[i].label%>"
-          +     "</h1>"
-          +       "<h3 class=\"vote\"><%=toReadableNumber(segments[i].value)%></h3>"
-          +   "</li>"
-          +   "<%}%>"
+        legendTemplate : [
+          '<% for (var i=0; i<segments.length; i++){%>',
+            '<li>',
+              '<span class="bullet" style="background-color:<%=segments[i].fillColor%>"></span>',
+              '<h1>',
+                '<%=segments[i].label%>',
+              '</h1>',
+                '<h3 class="vote"><%=toReadableNumber(segments[i].value)%></h3>',
+            '</li>',
+         '<%}%>',
+        ].join('\n')
       });
       this.listenTo(this.collection, 'sync change', this.render, this);
       this.listenTo(this.collection, 'sync change', this.renderUpdateTime, this);
+      this.listenTo(this.collection, 'sync change', this.renderProgress, this);
       this.render();
     },
     render: _.debounce(function (){
@@ -42,11 +44,14 @@ define([
       });
       // Would update the first dataset's value of 'Green' to be 10
       myPieChart.update();
-      $("#legend").html(this.myPieChart.generateLegend());
+      $('#legend').html(this.myPieChart.generateLegend());
     }, 500),
     renderUpdateTime: function() {
-      $("#update-time").html('更新時間:' + (new Date()).toLocaleString());
+      $('#update-time').html('更新時間:' + (new Date()).toLocaleString());
+    },
+    renderProgress: function (){
+      $('#progress-percentage').html(this.collection.getProgress());
     }
-  })
+  });
   return Pie;
 });

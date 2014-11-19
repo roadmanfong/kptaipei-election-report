@@ -14,20 +14,29 @@ module.exports = function(grunt) {
     jshint: {
       files: ['Gruntfile.js', 'www/js/*.js'],
       options: {
-        ignores: ['www/js/main-min.js', 'www/js/lib/*.js'],
+        ignores: ['www/js/*min.js', 'www/js/lib/*.js'],
         // options here to override JSHint defaults
         jshintrc: '.jshintrc'
       }
     },
     requirejs: {
-      compile: {
+      options: {
+        wrap: true,
+        baseUrl: 'www/js',
+        name: 'lib/almond', // assumes a production build using almond
+      },
+      main: {
         options: {
-          wrap: true,
-          baseUrl: 'www/js',
-          include: 'main',
-          name: 'lib/almond', // assumes a production build using almond
+          include: 'main-index',
           out: 'www/js/main-index-min.js',
           mainConfigFile: 'www/js/main-index.js'
+        }
+      },
+      pie: {
+        options: {
+          include: 'main-pie',
+          out: 'www/js/main-pie-min.js',
+          mainConfigFile: 'www/js/main-pie.js'
         }
       }
     }
