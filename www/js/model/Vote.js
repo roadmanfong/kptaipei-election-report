@@ -15,7 +15,7 @@ define([
     defaults: {
       id: null,//CPTID
       name: null,
-      opacity: 0.5,
+      opacity: config.BLUR_OPACITY,
       votes: votes,
       villages: [],
       layers: null
