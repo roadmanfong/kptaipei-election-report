@@ -1,9 +1,9 @@
 define(function() {
 	var config = {
 		//parse.com
-		APP_ID: "CPFQXuoHErkxiN8b3uDFuGuGBnZbLen9jglvAB4p",
-		APP_REST_KEY: "u7LyStVeHzbwCBMlW0rkH8Xby31mRymQiVkeJNKG",
-		APP_JS_KEY: "qvHqLCDitrqkwAL3bSbMfbdcYlUY9wlfVJZmom3S",
+		APP_ID: 'CPFQXuoHErkxiN8b3uDFuGuGBnZbLen9jglvAB4p',
+		APP_REST_KEY: 'u7LyStVeHzbwCBMlW0rkH8Xby31mRymQiVkeJNKG',
+		APP_JS_KEY: 'qvHqLCDitrqkwAL3bSbMfbdcYlUY9wlfVJZmom3S',
 		ATTRIBUTION_CONTROL: '',
 		//map
 		ENABLE_BG_MAP: false,
@@ -19,12 +19,12 @@ define(function() {
 			weight: 2,
 			opacity: 1,
 			color: '#bbb',
-			fillOpacity: 0.5,
-			fillColor: 'lightgray'
+			// fillOpacity: 1,
+			fillColor: 'url(#gray)'
 		},
-		NO_DATA_COLOR: 'lightgray',
+		NO_DATA_COLOR: 'url(#gray)',
 		FOCUS_OPACITY: 1,
-		BLUR_OPACITY: 0.7,
+		BLUR_OPACITY: 0.8,
 		TILE_LAYER_ID: 'waneblade.k4nbn1c1',
 		//data
 		CANDIDATE: [
@@ -62,12 +62,14 @@ define(function() {
 				number: 6,
 				name: '連勝文',
 				color: '#428bca',
+				pattern: '#blue',
 				avatar:''
 			},
 			{
 				number: 7,
 				name: '柯文哲',
 				color: 'white',
+				pattern: '#white',
 				avatar:''
 			}
 		]

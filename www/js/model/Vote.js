@@ -35,15 +35,15 @@ define([
 
       var VoteHouseObject = Parse.Object.extend("TicketInfoObject");
       var query = new Parse.Query(VoteHouseObject);
-      query.lessThanOrEqualTo("voteHouseId", this.voteHouseMax.toString());
-      query.greaterThanOrEqualTo("voteHouseId", this.voteHouseMin.toString());
+      query.lessThanOrEqualTo("voteHouseId", this.voteHouseMax);
+      query.greaterThanOrEqualTo("voteHouseId", this.voteHouseMin);
 
       options.success = function(results) {
         var candidate6 = 0;
         var candidate7 = 0;
         for (var i = 0; i < results.length; i++) { 
-          candidate6 += parseInt(results[i].get("candidate6"));
-          candidate7 += parseInt(results[i].get("candidate7"));
+          candidate6 += results[i].get("candidate6");
+          candidate7 += results[i].get("candidate7");
         }
         var resp = {
           votes:[candidate6, candidate7]

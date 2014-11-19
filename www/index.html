@@ -7,7 +7,6 @@
 	<link rel="stylesheet" href="css/leaflet.css" />
 	<link rel="stylesheet" href="css/global.css" />
 	<link rel="stylesheet" href="css/main.css" />
-	<link rel="stylesheet" href="css/chart.css" />
 </head>
 <body>
 	<div id="background"></div>
@@ -18,15 +17,20 @@
 		</div>
 	</div>
 
-	<!-- <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" version="1.1" baseProfile="full" style="width:0;height:0;">
-	    <title>Text Pattern Fill Example</title>
+	<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" version="1.1" baseProfile="full" style="width:0;height:0;">
 	    <defs>
-	        <pattern id="img1" patternUnits="userSpaceOnUse" width="600" height="450">
-	            <image xlink:href="daisy-grass-repeating-background.jpg" x="0" y="0" width="600" height="450"/>
+	        <pattern id="white" patternUnits="userSpaceOnUse" width="80" height="80">
+	            <image xlink:href="img/map_white.png" x="0" y="0" width="80" height="80"/>
+	        </pattern>
+	        <pattern id="gray" patternUnits="userSpaceOnUse" width="80" height="80">
+	            <image xlink:href="img/map_gray.png" x="0" y="0" width="80" height="80"/>
+	        </pattern>
+	        <pattern id="blue" patternUnits="userSpaceOnUse" width="80" height="80">
+	            <image xlink:href="img/map_blue.png" x="0" y="0" width="80" height="80"/>
 	        </pattern>
 	    </defs>
-	<head/></svg> -->
-
+	</svg>
+	<div style="background:url(img/map_blue.png);width:100px;height:100px;top:100px;right:100px;position:absolute"></div>
 	<div id="map"></div>
 	<div id="info">
 		<h1>指標里開票</h1>	
