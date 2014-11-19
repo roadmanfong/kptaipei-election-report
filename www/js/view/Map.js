@@ -24,7 +24,6 @@ define([
         maxBounds: L.latLngBounds(config.LATLNG_BOUNDS[0], config.LATLNG_BOUNDS[1]),
         zoomControl: false
       });
-      this.map.attributionControl.addAttribution(config.ATTRIBUTION_CONTROL);
       this.map.on('zoomend', this.onZoomend.bind(this));
 
       if(config.ENABLE_BG_MAP){
@@ -93,7 +92,7 @@ define([
       _.each(models, function(model) {
         model.get('layer').setStyle(view.style(model));
       });
-    },    
+    },
     style: function (model){
       return {
         fillOpacity: model.get('opacity'),
@@ -109,6 +108,8 @@ define([
         });
       }
     },
+    //TODO: test1
+    //      test2
     resetHighlight: function (model){
       model.set('opacity', config.BLUR_OPACITY);
     },
@@ -125,7 +126,7 @@ define([
       });
     },
     renderUpdateTime: function() {
-      this.map.attributionControl.addAttribution(config.ATTRIBUTION_CONTROL + '&nbsp;|&nbsp;' + (new Date()).toLocaleString() +'更新');
+      $("#update-time").html('更新時間:' + (new Date()).toLocaleString());
     },
     randomMouseOver: function() {
       randomModel = collectionVotes.at(0);

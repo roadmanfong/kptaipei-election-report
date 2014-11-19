@@ -48,3 +48,8 @@ h1{
 	height:20px;
 	background-color: green;
 }
+#update-time{
+	position: fixed;
+	bottom: 5px;
+	right: 5px;
+}

@@ -12,4 +12,4 @@ define([
     return maxVote <= 0 ? config.NO_DATA_COLOR : config.CANDIDATE[index].color;
   }
   return getColor;
-})
+});
