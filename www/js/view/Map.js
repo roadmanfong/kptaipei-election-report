@@ -1,5 +1,5 @@
 define([
-  'app/config',
+  'json!config.json',
   'underscore',
   'backbone',
   'leaflet',

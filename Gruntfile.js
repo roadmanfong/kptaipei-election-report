@@ -40,29 +40,13 @@ module.exports = function(grunt) {
         }
       }
     },
-    autoshot: {
-      map: {
-        options: {
-          path: 'snapshot',
-          // remote: {
-          //   files: [
-          //     { src: "http://localhost:8000", dest: "google.png", delay: 3000 }
-          //   ]
-          // },
-          local: {
-            path: './www',
-            port: 8080,
-            files: [
-              { src: 'index.html', dest: 'screenshot.jpg', delay: 10000}
-            ]
-          }
-        }
-      
-      }
+    snapshot:{
+      main: {}
     }
   });
 
   require('load-grunt-tasks')(grunt);
+  grunt.task.loadTasks('tasks');
   grunt.registerTask('default', ['jshint', 'requirejs']);
 
 };

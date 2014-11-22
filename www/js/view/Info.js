@@ -1,5 +1,5 @@
 define([
-  'app/config',
+  'json!config.json',
   'app/toReadableNumber',
   'view/Bar',
   'underscore',

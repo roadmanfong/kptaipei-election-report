@@ -4,9 +4,67 @@
 ## TODO
 * 拍照
 
+## Requirement
+* 安裝[node.js](http://nodejs.org/)
+* 安裝[phantom.js](http://phantomjs.org/)
+* 安裝node.js完成後，在porject的根目錄下指令
+
+```shell
+npm install
+```
+
+## Guideline
+
+### 參數設定
+#### file:  `www/js/config.json`
+`CAROUSEL_TIME_MS` 輪播及截圖時間設定
+
+
+#### file:  `snapshot.js`
+
+```js
+//儲存截圖的資料夾
+var DIR_NAME = 'snapshot';
+
+//截圖大小
+var SCREEN_FACTOR_PIXEL = 300;
+var WIDTH = 4 * SCREEN_FACTOR_PIXEL;
+var HEIGHT = 3 * SCREEN_FACTOR_PIXEL;
+
+//截圖來源網頁
+var TARGET_URL = 'http://localhost:8000';
+
+//緩充第一次網頁載入時間
+var DELAY_TIMEOUT_MS = 1000;
+
+//截圖間隔時間
+var INTERVAL_MS = require('./www/js/config.json').CAROUSEL_TIME_MS;
+```
+
+
+### 指令
+1. 設定網頁伺服器 [http://localhost:8000](http://localhost:8000)
+
+```shell
+grunt connect
+```
+保持視窗不要關閉,
+ctrl+c 可以中止
+
+2. 截圖
+伺服器網頁運行時，執行
+
+```shell
+phantomjs snapshot.js
+```
+
+保持視窗不要關閉,
+ctrl+c 可以中止，
+預設存檔於 snapshot/{unix_time}.png
+
 
 ## 里界圖
-```json
+```js
 {
   "AREA": 16326540.3962, //
   "NEW": 6301200042, //same with NPTVID?

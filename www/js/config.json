@@ -1,0 +1,40 @@
+{
+	"CAROUSEL_TIME_MS": 5000,
+	"ENABLE_BG_MAP": false,
+	"DRAGGING": false,
+	"ZOOM": 12,
+	"MAX_ZOOM": 12,
+	"MIN_ZOOM": 12,
+	"LATLNG_BOUNDS": [[24,121], [26,122]],
+	"CENTER": [25.075, 121.5],
+	"POLLING_TIME_MS": 30000,
+	"DEFAULT_STYLE": {
+		"weight": 3,
+		"opacity": 0.7,
+		"color": "silver",
+		"fillColor": "#ccc"
+	},
+	"FOCUS_WEIGHT": 4,
+	"FOCUS_COLOR": "GoldenRod",
+	"FOCUS_OPACITY": 1,
+	"CANDIDATE": [
+		{
+			"number": 6,
+			"name": "連勝文",
+			"color": "#428bca",
+			"pattern": "#blue",
+			"avatar":"url(img/avatar_6.jpg)"
+		},
+		{
+			"number": 7,
+			"name": "柯文哲",
+			"color": "white",
+			"pattern": "#white",
+			"avatar": "url(img/avatar_7.jpg)"
+		}
+	],
+	"TILE_LAYER_ID": "waneblade.k4nbn1c1",
+	"APP_ID": "CPFQXuoHErkxiN8b3uDFuGuGBnZbLen9jglvAB4p",
+	"APP_REST_KEY": "u7LyStVeHzbwCBMlW0rkH8Xby31mRymQiVkeJNKG",
+	"APP_JS_KEY": "qvHqLCDitrqkwAL3bSbMfbdcYlUY9wlfVJZmom3S"
+}

@@ -3,6 +3,8 @@
 requirejs.config({
   baseUrl: 'js',
   paths: {
+    'text': 'lib/text',
+    'json' : 'lib/json',
     'jquery': 'lib/jquery-2.1.1.min',
     'underscore': 'lib/underscore',
     'backbone': 'lib/backbone',
@@ -26,7 +28,7 @@ requirejs.config({
   }
 });
 requirejs([
-  'app/config',
+  'json!config.json',
   'parse',
   'view/Map',
   'collection/Votes',
