@@ -1,8 +1,4 @@
-
 # 選情回報圖
-
-## TODO
-* 拍照
 
 ## Requirement
 * 安裝[node.js](http://nodejs.org/)
