@@ -26,6 +26,11 @@ define([
       });
       this.map.on('zoomend', this.onZoomend.bind(this));
 
+      function injectStyles(rule) {
+        var div = $('<div />', {
+          html: '&shy;<style>' + rule + '</style>'
+        }).appendTo('body');    
+      }
       if(config.ENABLE_BG_MAP){
         L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
           maxZoom: 18,
@@ -33,11 +38,6 @@ define([
           id: config.TILE_LAYER_ID
         }).addTo(this.map);
       } else {
-        function injectStyles(rule) {
-          var div = $("<div />", {
-            html: '&shy;<style>' + rule + '</style>'
-          }).appendTo("body");    
-        }
         injectStyles('.leaflet-container {background: ' + config.MAP_BG_COLOR + '; }', 1); 
       }
       
@@ -50,7 +50,9 @@ define([
       this.collection.on('change', this.renderLayers, this);
       this.collection.on('sync', this.renderUpdateTime, this);
 
-      setTimeout(this.randomMouseOver.bind(this), 1);
+      setTimeout(this.carousel.bind(this), 1);
+
+      setInterval(this.carousel.bind(this), config.CAROUSEL_TIME_MS);
       // get color depending on votes value
     },
     generateGeoJson: function (){
@@ -96,22 +98,26 @@ define([
     style: function (model){
       return {
         fillOpacity: model.get('opacity'),
-        fillColor: getColor(model.get('votes'))
+        fillColor: getColor(model.get('votes')),
+        color: model.get('color')
       };
     },
     highlightFeature: function(model) {
-      model.set('opacity', config.FOCUS_OPACITY);
+      model.set({
+        'opacity': config.FOCUS_OPACITY,
+        'color': config.FOCUS_COLOR
+      });
       var layer = model.get('layer');
       if (!L.Browser.ie && !L.Browser.opera) {
-        _.each(model.get('layers'),function(layer) {
-          layer.bringToFront();
-        });
+        model.get('layer').bringToFront();
       }
     },
-    //TODO: test1
-    //      test2
+
     resetHighlight: function (model){
-      model.set('opacity', config.BLUR_OPACITY);
+      model.set({
+        'opacity': config.DEFAULT_STYLE.opacity,
+        'color': config.DEFAULT_STYLE.color
+      });
     },
     lastMouseOver: function (model){
       this.lastMouseOverId = model.get('id');
@@ -126,12 +132,21 @@ define([
       });
     },
     renderUpdateTime: function() {
-      $("#update-time").html('更新時間:' + (new Date()).toLocaleString());
+      $('#update-time').html('更新時間:' + (new Date()).toLocaleString());
     },
-    randomMouseOver: function() {
-      randomModel = collectionVotes.at(0);
-      this.trigger('mouseover', randomModel);
+    carouselCount: 0,
+    carousel: function() {
+      console.log('carousel');
+      if(this.lastMouseOverId){
+        this.resetHighlight(this.collection.get(this.lastMouseOverId));
+      }
+      this.carouselCount = this.carouselCount >= this.collection.length ? 
+        0 : this.carouselCount;
+      var carouselModel = this.collection.at(this.carouselCount);
+      this.carouselCount++;
+      this.trigger('mouseover', carouselModel);
     }
   });
   return Map;
-})
+});
+

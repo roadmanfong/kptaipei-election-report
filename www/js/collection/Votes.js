@@ -46,7 +46,7 @@ define([
     },
     parse: function(response) {
       return _.map(response, function(object) {
-        console.log(object.unfinishedVoteHouse);
+        // console.log(object.unfinishedVoteHouse);
         return {
           id: object.districtId,
           votes: [object.candidate6 || 0, object.candidate7 || 0],

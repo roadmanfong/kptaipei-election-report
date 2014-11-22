@@ -17,15 +17,15 @@ define(function() {
 		POLLING_TIME_MS: 30000,
 		DEFAULT_STYLE: {
 			weight: 2,
-			opacity: 1,
-			color: '#bbb',
-			// fillOpacity: 1,
-			fillColor: 'url(#gray)'
+			opacity: 0.7,
+			color: '#ddd',
+			fillColor: '#ccc'
 		},
-		NO_DATA_COLOR: 'url(#gray)',
+		FOCUS_COLOR: '#333',
 		FOCUS_OPACITY: 1,
-		BLUR_OPACITY: 0.8,
+
 		TILE_LAYER_ID: 'waneblade.k4nbn1c1',
+		CAROUSEL_TIME_MS: 5000,
 		//data
 		CANDIDATE: [
 			// {
