@@ -40,13 +40,13 @@ define([
         return mem + num;
       }, 0);
 
-      _.each(votes, function(value, index) {
+      _.each(votes, _.bind(function(value, index) {
         var $li = this.$el.find('li').eq(index);
         $li.find('.vote')
         .html(toReadableNumber(value));
         $li.find('.bar')
         .width(parseInt(value*this.maxWidth/total));
-      }.bind(this));
+      }, this));
       
     }
   });

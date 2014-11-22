@@ -49,9 +49,9 @@ define([
       this.collection.on('change', this.renderLayers, this);
       this.collection.on('sync', this.renderUpdateTime, this);
 
-      setTimeout(this.carousel.bind(this), 1);
+      setTimeout(_.bind(this.carousel, this), 1);
 
-      setInterval(this.carousel.bind(this), config.CAROUSEL_TIME_MS);
+      setInterval(_.bind(this.carousel, this), config.CAROUSEL_TIME_MS);
       // get color depending on votes value
     },
     generateGeoJson: function (){

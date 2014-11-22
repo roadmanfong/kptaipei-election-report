@@ -28,6 +28,7 @@ requirejs.config({
 requirejs([
   'app/config',
   'parse',
+  'underscore',
   'view/info',
   'view/Map',
   'model/Vote',
@@ -36,6 +37,7 @@ requirejs([
 ], function(
   config,
   Parse,
+  _,
   ViewInfo,
   ViewMap,
   ModelVote,
@@ -70,9 +72,8 @@ requirejs([
     villageB: villageB
   });
 
-  viewMap.on('mouseover', viewInfo.onMouseOver.bind(viewInfo));
-  viewMap.on('mouseout', viewInfo.onMouseOut.bind(viewInfo));
-  // setTimeout(collectionVotes.roll.bind(collectionVotes), 0);
+  viewMap.on('mouseover', _.bind(viewInfo.onMouseOver, viewInfo));
+  viewMap.on('mouseout', _.bind(viewInfo.onMouseOut, viewInfo));
   function fetchAll(){
     collectionVotes.fetch({remove: false});
     villageA.fetchRange();

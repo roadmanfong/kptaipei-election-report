@@ -28,7 +28,8 @@ define([
           district.id = property.CPTID;
           district.villages.push(property.CPTVID);
         });
-        setTimeout(this.reset.bind(this), 0, _(districts).toArray());
+
+        setTimeout(_.bind(this.reset, this), 0,  _.toArray(districts));
       }
     },
     fetch: function(options) {
@@ -72,7 +73,7 @@ define([
     },
     startPolling: function (){
       clearInterval(this.pollingId);
-      this.pollingId = setInterval(this.fetch.bind(this, {remove: false}), config.POLLING_TIME_MS);
+      this.pollingId = setInterval(_.bind(this.fetch, this, {remove: false}), config.POLLING_TIME_MS);
     },
     stopPolling: function (){
       clearInterval(this.pollingId);

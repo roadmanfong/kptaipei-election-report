@@ -13,15 +13,22 @@ define(function() {
 		MAX_ZOOM: 12,
 		MIN_ZOOM: 12,
 		LATLNG_BOUNDS: [[24,121], [26,122]],
+		//地圖中央經緯
 		CENTER: [25.075, 121.5],
+		//每個幾毫妙抓一次資料
 		POLLING_TIME_MS: 30000,
+		//預設地區格式
 		DEFAULT_STYLE: {
+			//粗細
 			weight: 3,
+			//透明度
 			opacity: 0.7,
+			//板塊彥色
 			color: 'silver',
 			fillColor: '#ccc'
 		},
 		FOCUS_WEIGHT: 4,
+		//focus顏色
 		FOCUS_COLOR: 'GoldenRod',
 		FOCUS_OPACITY: 1,
 
