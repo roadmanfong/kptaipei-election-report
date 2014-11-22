@@ -21,7 +21,7 @@ define([
         legendTemplate : [
           '<% for (var i=0; i<segments.length; i++){%>',
             '<li>',
-              '<span class="bullet" style="background-color:<%=segments[i].fillColor%>"></span>',
+              '<span class="avatar" style="background-image:<%=segments[i].avatar%>"></span>',
               '<h1>',
                 '<%=segments[i].label%>',
               '</h1>',

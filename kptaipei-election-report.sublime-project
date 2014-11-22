@@ -2,6 +2,10 @@
 	"folders":
 	[
 		{
+			"file_exclude_patterns":
+			[
+				"*min.js"
+			],
 			"folder_exclude_patterns":
 			[
 				"node_modules"

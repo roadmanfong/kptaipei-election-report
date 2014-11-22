@@ -110,7 +110,8 @@ define([
         return {
           value: value || 1,
           color: config.CANDIDATE[key].color,
-          label: config.CANDIDATE[key].name
+          label: config.CANDIDATE[key].name,
+          avatar: config.CANDIDATE[key].avatar
         }
       })
     },

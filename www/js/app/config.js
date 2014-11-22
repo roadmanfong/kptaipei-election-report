@@ -63,14 +63,14 @@ define(function() {
 				name: '連勝文',
 				color: '#428bca',
 				pattern: '#blue',
-				avatar:''
+				avatar:'url(img/avatar_6.jpg)'
 			},
 			{
 				number: 7,
 				name: '柯文哲',
 				color: 'white',
 				pattern: '#white',
-				avatar:''
+				avatar: 'url(img/avatar_7.jpg)'
 			}
 		]
 	};
