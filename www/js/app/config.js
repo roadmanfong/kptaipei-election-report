@@ -18,10 +18,10 @@ define(function() {
 		DEFAULT_STYLE: {
 			weight: 2,
 			opacity: 0.7,
-			color: '#ddd',
+			color: '#aa95a1',
 			fillColor: '#ccc'
 		},
-		FOCUS_COLOR: '#333',
+		FOCUS_COLOR: '#222',
 		FOCUS_OPACITY: 1,
 
 		TILE_LAYER_ID: 'waneblade.k4nbn1c1',

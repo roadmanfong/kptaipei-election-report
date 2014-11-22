@@ -39,7 +39,23 @@ module.exports = function(grunt) {
           mainConfigFile: 'www/js/main-pie.js'
         }
       }
-    }
+    },
+    htmlSnapshot: {
+     all: {
+       options: {
+         snapshotPath: 'snapshots/',
+         //This should be either the base path to your index.html file
+         //or your base URL. Currently the task does not use it's own
+         //webserver. So if your site needs a webserver to be fully
+         //functional configure it here.
+         sitePath: 'http://localhost:8000/',
+         //by default the task waits 500ms before fetching the html.
+         //this is to give the page enough time to to assemble itself.
+         //if your page needs more time, tweak here.
+         msWaitForPages: 1000,
+       }
+     }
+   }
   });
 
   require('load-grunt-tasks')(grunt);

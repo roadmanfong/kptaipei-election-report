@@ -16,6 +16,7 @@
     "grunt-contrib-requirejs": "^0.4.4",
     "grunt-contrib-jshint": "^0.10.0",
     "turf-merge": "0.0.2",
-    "underscore": "^1.7.0"
+    "underscore": "^1.7.0",
+    "grunt-html-snapshot": "^0.6.1"
   }
 }

@@ -25,7 +25,7 @@ define([
               '<h1>',
                 '<%=segments[i].label%>',
               '</h1>',
-                '<h3 class="vote"><%=toReadableNumber(segments[i].value)%></h3>',
+                '<h1 class="vote"><%=toReadableNumber(segments[i].value)%></h1>',
             '</li>',
          '<%}%>',
         ].join('\n')
