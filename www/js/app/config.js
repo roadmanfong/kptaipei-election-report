@@ -13,15 +13,16 @@ define(function() {
 		MAX_ZOOM: 12,
 		MIN_ZOOM: 12,
 		LATLNG_BOUNDS: [[24,121], [26,122]],
-		CENTER: [25.09, 121.5],
+		CENTER: [25.075, 121.5],
 		POLLING_TIME_MS: 30000,
 		DEFAULT_STYLE: {
-			weight: 2,
+			weight: 3,
 			opacity: 0.7,
-			color: '#aa95a1',
+			color: 'silver',
 			fillColor: '#ccc'
 		},
-		FOCUS_COLOR: '#222',
+		FOCUS_WEIGHT: 4,
+		FOCUS_COLOR: 'GoldenRod',
 		FOCUS_OPACITY: 1,
 
 		TILE_LAYER_ID: 'waneblade.k4nbn1c1',

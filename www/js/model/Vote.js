@@ -17,6 +17,7 @@ define([
       name: null,
       opacity: config.DEFAULT_STYLE.opacity,
       color: config.DEFAULT_STYLE.color,
+      weight: config.DEFAULT_STYLE.weight,
       votes: votes,
       villages: [],
       layers: null

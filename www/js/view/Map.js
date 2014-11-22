@@ -24,7 +24,6 @@ define([
         maxBounds: L.latLngBounds(config.LATLNG_BOUNDS[0], config.LATLNG_BOUNDS[1]),
         zoomControl: false
       });
-      this.map.on('zoomend', this.onZoomend.bind(this));
 
       function injectStyles(rule) {
         var div = $('<div />', {
@@ -43,7 +42,7 @@ define([
       
 
       this.on('mouseover', this.highlightFeature);
-      this.on('mouseout', this.resetHighlight);
+      this.on('mouseout', this.blurFeature);
       this.on('mouseover', this.lastMouseOver);
 
       this.collection.on('reset', this.generateGeoJson, this);
@@ -99,13 +98,21 @@ define([
       return {
         fillOpacity: model.get('opacity'),
         fillColor: getColor(model.get('votes')),
-        color: model.get('color')
+        color: model.get('color'),
+        weight: model.get('weight')
       };
     },
+    highlights:[],
     highlightFeature: function(model) {
+      var that = this;
+      _.each(this.highlights, function(model) {
+        that.blurFeature(model);
+      });
+      this.highlights.push(model);
       model.set({
         'opacity': config.FOCUS_OPACITY,
-        'color': config.FOCUS_COLOR
+        'color': config.FOCUS_COLOR,
+        'weight': config.FOCUS_WEIGHT
       });
       var layer = model.get('layer');
       if (!L.Browser.ie && !L.Browser.opera) {
@@ -113,24 +120,18 @@ define([
       }
     },
 
-    resetHighlight: function (model){
+    blurFeature: function (model){
       model.set({
         'opacity': config.DEFAULT_STYLE.opacity,
-        'color': config.DEFAULT_STYLE.color
+        'color': config.DEFAULT_STYLE.color,
+        'weight': config.DEFAULT_STYLE.weight
       });
     },
+
     lastMouseOver: function (model){
       this.lastMouseOverId = model.get('id');
     },
-    onZoomend: function (){
-      this.collection.each(function(model) {
-        if(model.id === this.lastMouseOverId){
-          return;
-        } else {
-          model.trigger('change', model);
-        }
-      });
-    },
+
     renderUpdateTime: function() {
       $('#update-time').html('更新時間:' + (new Date()).toLocaleString());
     },
@@ -138,7 +139,7 @@ define([
     carousel: function() {
       console.log('carousel');
       if(this.lastMouseOverId){
-        this.resetHighlight(this.collection.get(this.lastMouseOverId));
+        this.blurFeature(this.collection.get(this.lastMouseOverId));
       }
       this.carouselCount = this.carouselCount >= this.collection.length ? 
         0 : this.carouselCount;

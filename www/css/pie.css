@@ -32,3 +32,6 @@ li:first-child{
 li:last-child{
 	float: left;
 }
+body{
+	color: white;
+}
