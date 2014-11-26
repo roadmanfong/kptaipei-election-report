@@ -24,14 +24,17 @@ function snapshot(url, subDir){
 	page.viewportSize = { width: WIDTH, height: HEIGHT };
 
 	console.log('Capturing ' + url + ' to ' + genImageUrl(subDir) + '...');
+
+	function renderImage(){
+		var imageUrl = genImageUrl(subDir);
+	  	page.render(imageUrl);
+		console.log('Rendered ' + imageUrl);
+	}
+
 	page.open(url, function() {
 		setTimeout(function (){
-			setInterval(function(){
-				var imageUrl = genImageUrl(subDir);
-			  	page.render(imageUrl);
-				console.log('Rendered ' + imageUrl);
-		  		// phantom.exit();
-			}, INTERVAL_MS);
+			renderImage();
+			setInterval(renderImage, INTERVAL_MS);
 		}, DELAY_TIMEOUT_MS);
 	});
 }

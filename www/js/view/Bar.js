@@ -42,10 +42,13 @@ define([
 
       _.each(votes, _.bind(function(value, index) {
         var $li = this.$el.find('li').eq(index);
+
+        var width = ( value === 0 ? 0 : parseInt(value*this.maxWidth/total));
+
         $li.find('.vote')
         .html(toReadableNumber(value));
         $li.find('.bar')
-        .width(parseInt(value*this.maxWidth/total));
+        .width(width);
       }, this));
       
     }
